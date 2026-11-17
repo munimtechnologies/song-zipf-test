@@ -19,18 +19,26 @@ recording, and add a held-out check against overfitting.
   pre-registered gate checks the OCR against totals in the authors' printed output (299 bouts,
   19,990 transitions, 3,205 cuts, 1,043 subsequence types) and against their printed
   segmentation. If the gate fails, the analysis does not run.
-* Finch OCR and analysis job: queued. Whale data: waiting for a browser download of the
-  Science supplement.
+* [PREREG-AMENDMENT-2.md](PREREG-AMENDMENT-2.md): a synthetic calibration, registered before
+  any finch result was seen. Song is generated from Markov chains with no words, and from
+  lexicons of word-like chunks, at the size of the finch data. It measures three things: how
+  often our second-order null wrongly rejects real second-order song, how often it detects
+  real words, and whether the published shuffle and rotation controls can tell words from
+  plain syllable rules at all. The rules for reading the real-data labels in light of the
+  calibration are fixed in advance.
+* Jobs: finch OCR and analysis, queued; calibration (`calib.py`), queued; whale stage 0
+  (unpacking the Science supplement, downloaded 2026-11-17), queued.
 
 ## Code
 
 * `zipfseg.py`: segmentation, the Zipf R^2, and the null models (pure Python).
+* `calib.py`: the synthetic calibration (Amendment 2).
 * `finch_parse.py`: parses and validates the OCR'd finch dataset.
 * `ocr_finch.py`: Stage 1, the OCR (Tesseract).
 * `job_analyze.py`: Stage 2, the analysis, which runs only if the gate passed.
 * `inventory.py`: Stage 0, which fetched the supplements.
-* Tests: `python -m unittest -v test_zipfseg test_finch_parse`. One test checks our
-  segmentation against a literal transcription of the authors' Code S1.
+* Tests: `python -m unittest -v test_zipfseg test_finch_parse test_calib`. One test checks
+  our segmentation against a literal transcription of the authors' Code S1.
 
 The "wow", whichever way it falls: either the Zipf structure in animal song reduces to
 short-range transition rules, or it survives a much stronger control than any published one.
