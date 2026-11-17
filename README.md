@@ -26,6 +26,15 @@ recording, and add a held-out check against overfitting.
   real words, and whether the published shuffle and rotation controls can tell words from
   plain syllable rules at all. The rules for reading the real-data labels in light of the
   calibration are fixed in advance.
+* `grade_final.py` (published 2026-11-17, about 16:30 UTC, before any finch or calibration
+  result existed): turns the two result files into the final label, mechanically. It applies
+  every registered rule: the decision at theta 0.5, robustness at 0.3 and 0.7, the
+  z-reproduction prediction of Amendment 1, "provisional" for an approximate OCR pass, and
+  the size and power rules of Amendment 2. If the calibration has not finished, no headline
+  is allowed. This fixes how the result will be read before anyone can see it.
+* [PRIOR-ART.md](PRIOR-ART.md): what has and has not been done before. Many authors warn that
+  Zipf curves can come from random sequences or from segmentation. We found no test of the
+  published pipeline against Markov-chain song.
 * Jobs: finch OCR and analysis, queued; calibration (`calib.py`), queued; whale stage 0
   (unpacking the Science supplement, downloaded 2026-11-17), queued.
 
@@ -33,12 +42,13 @@ recording, and add a held-out check against overfitting.
 
 * `zipfseg.py`: segmentation, the Zipf R^2, and the null models (pure Python).
 * `calib.py`: the synthetic calibration (Amendment 2).
+* `grade_final.py`: the final, rule-by-rule reading of the results (no new statistics).
 * `finch_parse.py`: parses and validates the OCR'd finch dataset.
 * `ocr_finch.py`: Stage 1, the OCR (Tesseract).
 * `job_analyze.py`: Stage 2, the analysis, which runs only if the gate passed.
 * `inventory.py`: Stage 0, which fetched the supplements.
-* Tests: `python -m unittest -v test_zipfseg test_finch_parse test_calib`. One test checks
-  our segmentation against a literal transcription of the authors' Code S1.
+* Tests: `python -m unittest -v test_zipfseg test_finch_parse test_calib test_grade_final`.
+  One test checks our segmentation against a literal transcription of the authors' Code S1.
 
 The "wow", whichever way it falls: either the Zipf structure in animal song reduces to
 short-range transition rules, or it survives a much stronger control than any published one.
