@@ -2,8 +2,8 @@
 # zipfseg: transitional-probability (TP) segmentation of animal song, the Zipf
 # rank-frequency R^2 used by Arnon et al. 2025 (Science 387:649) and Kirby et al.
 # 2026 (Sci. Adv., doi 10.1126/sciadv.aea3015), and sequence null models of
-# increasing order (shuffle, within-bout bigram/trigram resampling, pooled
-# first/second-order Markov chains).
+# increasing order (shuffle, rotation, within-bout bigram/trigram resampling,
+# pooled first/second-order Markov chains).
 # MV2, Munim, Inc. (mv2@munimtech.com). Made with AI agents. Apache-2.0.
 """Pure-Python core (no third-party imports) so the tests run anywhere.
 
@@ -12,33 +12,50 @@ Conventions
 A *recording* is a list of *bouts*; a bout is a list of hashable symbols
 (syllable or sound-element labels). Transitional probabilities are estimated
 per recording from within-bout adjacent pairs only (no pair crosses a bout
-boundary), as in Kirby et al. 2026.
+boundary), as in Kirby et al. 2026, Code S1.
 
-Cut rule (PREREG.md section 3): with t_i = TP(s_i -> s_{i+1}), a boundary is
-placed at transition i (between s_i and s_{i+1}) when t_i / t_{i-1} < theta,
-i.e. when the current TP has dropped below theta times the previous one. The
-rule direction can be switched with ``rule="prev_over_cur"`` for the
-sensitivity check required by the pre-registration.
+Amendment 1 (2026-11-17, PREREG-AMENDMENT-1.md), after reading Code S1:
+* TP(a->b) = n(a,b) / n(a), where n(a) counts EVERY occurrence of a in the
+  recording, including bout-final ones (Code S1 ``ngram_table(n-1)``).
+  ``denominator="followed"`` (n(a, any)) is kept as a sensitivity check.
+* Cut rule exactly as Code S1 ``cut_sequences_sliding``: a boundary is placed
+  at transition i (between s_i and s_{i+1}) when t_i < t_{i-1} * theta; the
+  first transition never cuts. ``rule="prev_over_cur"`` (t_{i-1} < t_i * theta)
+  is the reversed-direction sensitivity check.
+* zipf_r2 follows Code S1 ``mean_r2``: a recording counts when it has >= 2
+  types and frequencies that are not all equal (2 types give R^2 = 1).
+* z-scores use the population SD (numpy ``np.std``), as in Code S1.
+* A rotation null (Code S1 ``rotate_strings``) is added for reproduction.
 """
 import math
 import random
 from collections import Counter, defaultdict
 
 RULES = ("cur_over_prev", "prev_over_cur")
+DENOMINATORS = ("all", "followed")
 
 
 # --------------------------------------------------------------------------
 # transitional probabilities and segmentation
 # --------------------------------------------------------------------------
-def bigram_tp(bouts):
-    """TP(a->b) = n(a,b) / n(a, any) over within-bout adjacent pairs."""
+def bigram_tp(bouts, denominator="all"):
+    """TP(a->b) = n(a,b) / n(a).
+
+    denominator="all": n(a) = all occurrences of a (Code S1).
+    denominator="followed": n(a) = occurrences of a that have a successor."""
+    if denominator not in DENOMINATORS:
+        raise ValueError(denominator)
     pair = Counter()
     first = Counter()
+    uni = Counter()
     for b in bouts:
+        for s in b:
+            uni[s] += 1
         for x, y in zip(b, b[1:]):
             pair[(x, y)] += 1
             first[x] += 1
-    return {k: v / first[k[0]] for k, v in pair.items()}
+    den = uni if denominator == "all" else first
+    return {k: v / den[k[0]] for k, v in pair.items()}
 
 
 def segment_bout(bout, tp, theta, rule="cur_over_prev"):
@@ -53,24 +70,39 @@ def segment_bout(bout, tp, theta, rule="cur_over_prev"):
     start = 0
     for i in range(1, n - 1):
         if rule == "cur_over_prev":
-            ratio = t[i] / t[i - 1]
+            cut = t[i] < t[i - 1] * theta
         else:
-            ratio = t[i - 1] / t[i]
-        if ratio < theta:
+            cut = t[i - 1] < t[i] * theta
+        if cut:
             segs.append(tuple(bout[start:i + 1]))
             start = i + 1
     segs.append(tuple(bout[start:]))
     return segs
 
 
-def segment_recording(bouts, theta, rule="cur_over_prev"):
+def segment_recording_bouts(bouts, theta, rule="cur_over_prev", denominator="all"):
+    """List (one per bout) of lists of subsequences."""
+    tp = bigram_tp(bouts, denominator)
+    return [segment_bout(b, tp, theta, rule) for b in bouts]
+
+
+def segment_recording(bouts, theta, rule="cur_over_prev", denominator="all"):
     """Inventory (Counter) of detected subsequences for one recording."""
-    tp = bigram_tp(bouts)
     inv = Counter()
-    for b in bouts:
-        for s in segment_bout(b, tp, theta, rule):
+    for segs in segment_recording_bouts(bouts, theta, rule, denominator):
+        for s in segs:
             inv[s] += 1
     return inv
+
+
+def cut_positions(segs):
+    """Symbol indices (>0) at which a new subsequence starts."""
+    out = []
+    pos = 0
+    for s in segs[:-1]:
+        pos += len(s)
+        out.append(pos)
+    return out
 
 
 # --------------------------------------------------------------------------
@@ -91,9 +123,10 @@ def _pearson(x, y):
 def zipf_r2(freqs):
     """R^2 of log(frequency) on log(rank), ranks 1..K by descending frequency.
 
-    Returns nan for fewer than 3 types or no variation in frequency."""
+    As Code S1: nan (recording skipped) for fewer than 2 types or when all
+    frequencies are equal; 2 unequal types give 1.0."""
     f = sorted((v for v in freqs if v > 0), reverse=True)
-    if len(f) < 3:
+    if len(f) < 2:
         return float("nan")
     x = [math.log(r) for r in range(1, len(f) + 1)]
     y = [math.log(v) for v in f]
@@ -119,9 +152,9 @@ def nanmean(v):
     return sum(v) / len(v) if v else float("nan")
 
 
-def dataset_r2(recordings, theta, rule="cur_over_prev"):
+def dataset_r2(recordings, theta, rule="cur_over_prev", denominator="all"):
     """Mean over recordings of the per-recording Zipf R^2 (the papers' statistic)."""
-    return nanmean([zipf_r2(segment_recording(b, theta, rule).values())
+    return nanmean([zipf_r2(segment_recording(b, theta, rule, denominator).values())
                     for b in recordings])
 
 
@@ -211,14 +244,43 @@ NULLS = {
 }
 
 
+def rotate_bout_segments(segs, rng):
+    """Code S1 rotate_strings: rotate the bout's symbols by a random amount and
+    cut them again at the original subsequence lengths (no re-segmentation)."""
+    flat = [s for seg in segs for s in seg]
+    if not flat:
+        return [tuple(s) for s in segs]
+    slide = rng.randint(0, 100000) % len(flat)
+    rot = flat[slide:] + flat[:slide]
+    out = []
+    pos = 0
+    for seg in segs:
+        out.append(tuple(rot[pos:pos + len(seg)]))
+        pos += len(seg)
+    return out
+
+
+def rotated_dataset_r2(seg_recordings, rng):
+    """seg_recordings: per recording, per bout, list of subsequences."""
+    vals = []
+    for rec in seg_recordings:
+        inv = Counter()
+        for segs in rec:
+            for s in rotate_bout_segments(segs, rng):
+                inv[s] += 1
+        vals.append(zipf_r2(inv.values()))
+    return nanmean(vals)
+
+
 # --------------------------------------------------------------------------
 # comparison and diagnostics
 # --------------------------------------------------------------------------
 def compare(real, nulls):
-    """z-score and one-sided empirical p (null >= real) with +1 correction."""
+    """z-score (population SD, as Code S1) and one-sided empirical p
+    (null >= real) with +1 correction."""
     v = [a for a in nulls if a == a]
     m = sum(v) / len(v)
-    sd = math.sqrt(sum((a - m) ** 2 for a in v) / (len(v) - 1)) if len(v) > 1 else 0.0
+    sd = math.sqrt(sum((a - m) ** 2 for a in v) / len(v)) if v else 0.0
     z = (real - m) / sd if sd > 0 else float("nan")
     p = (1 + sum(1 for a in v if a >= real)) / (1 + len(v))
     frac80 = sum(1 for a in v if a >= 0.80) / len(v)
@@ -251,30 +313,54 @@ def heldout_ll(bouts, k, alpha=0.5, skip=2):
 
 
 def analyze(recordings, thetas=(0.3, 0.5, 0.7), B=1000, seed=20261117,
-            nulls=tuple(NULLS), rule="cur_over_prev"):
+            nulls=tuple(NULLS), rule="cur_over_prev", denominator="all",
+            rotation=True, heldout=True):
     """Real vs null mean-R^2 for every threshold and null model.
 
     One RNG per (null, theta), seeded from the master seed, so results do not
     depend on the order in which nulls are run."""
     res = {"thetas": list(thetas), "B": B, "seed": seed, "rule": rule,
-           "n_recordings": len(recordings), "by_theta": {}}
+           "denominator": denominator, "n_recordings": len(recordings),
+           "by_theta": {}}
     for th in thetas:
-        real = dataset_r2(recordings, th, rule)
-        row = {"real_mean_r2": real, "nulls": {}}
+        real = dataset_r2(recordings, th, rule, denominator)
+        segrecs = [segment_recording_bouts(r, th, rule, denominator) for r in recordings]
+        n_bouts = sum(len(r) for r in segrecs)
+        n_words = sum(len(s) for r in segrecs for s in r)
+        n_types = sum(len({w for s in r for w in s}) for r in segrecs)
+        row = {"real_mean_r2": real,
+               "cuts_per_bout": (n_words / n_bouts - 1) if n_bouts else float("nan"),
+               "n_types_total": n_types, "nulls": {}}
         for ni, name in enumerate(nulls):
             rng = random.Random(seed * 1000 + ni * 10 + int(round(th * 10)))
             vals = []
             for _ in range(B):
                 fake = [NULLS[name](rec, rng) for rec in recordings]
-                vals.append(dataset_r2(fake, th, rule))
+                vals.append(dataset_r2(fake, th, rule, denominator))
             row["nulls"][name] = compare(real, vals)
+        if rotation:
+            rng = random.Random(seed * 1000 + 900 + int(round(th * 10)))
+            vals = [rotated_dataset_r2(segrecs, rng) for _ in range(B)]
+            row["nulls"]["rotate"] = compare(real, vals)
         res["by_theta"][str(th)] = row
-    d = []
-    for rec in recordings:
-        l1 = heldout_ll(rec, 1)
-        l2 = heldout_ll(rec, 2)
-        d.append(l2 - l1)
-    res["heldout_ll_order2_minus_order1"] = {
-        "per_recording": d, "mean": nanmean(d),
-        "n_favour_order2": sum(1 for a in d if a > 0)}
+    if heldout:
+        d = []
+        for rec in recordings:
+            l1 = heldout_ll(rec, 1)
+            l2 = heldout_ll(rec, 2)
+            d.append(l2 - l1)
+        res["heldout_ll_order2_minus_order1"] = {
+            "per_recording": d, "mean": nanmean(d),
+            "n_favour_order2": sum(1 for a in d if a > 0)}
     return res
+
+
+def decision(row, alpha=0.05):
+    """PREREG section 5 label from one theta row (sanity handled by caller)."""
+    p1 = row["nulls"]["markov1_pooled"]["p"]
+    p2 = row["nulls"]["markov2_pooled"]["p"]
+    if p2 < alpha:
+        return "BEYOND_SECOND_ORDER"
+    if p1 < alpha:
+        return "EXPLAINED_BY_SECOND_ORDER"
+    return "EXPLAINED_BY_FIRST_ORDER"

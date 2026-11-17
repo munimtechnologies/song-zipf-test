@@ -10,10 +10,27 @@ first-order (bigram) null. Is it more than **second-order syllable rules**? We t
 published statistic against pooled first- and second-order Markov chains fitted to each
 recording, and add a held-out check against overfitting.
 
-* Status: **pre-registered, no data seen** (2026-11-17). See [PREREG.md](PREREG.md).
-* Stage 0: `inventory.py` fetches the published supplements and writes an inventory. It
-  does no analysis.
-* Core code: `zipfseg.py` (pure Python). Tests: `python -m unittest -v test_zipfseg`.
+## Status (2026-11-17)
+
+* [PREREG.md](PREREG.md): hypotheses, nulls, priors and the decision rule, registered before any data.
+* [PREREG-AMENDMENT-1.md](PREREG-AMENDMENT-1.md): the pipeline now follows the authors' own
+  Code S1 exactly (TP denominator, R^2 edge cases, population-SD z, rotation null). The
+  finch data are printed in the supplement only as page images, so they are read by OCR. A
+  pre-registered gate checks the OCR against totals in the authors' printed output (299 bouts,
+  19,990 transitions, 3,205 cuts, 1,043 subsequence types) and against their printed
+  segmentation. If the gate fails, the analysis does not run.
+* Finch OCR and analysis job: queued. Whale data: waiting for a browser download of the
+  Science supplement.
+
+## Code
+
+* `zipfseg.py`: segmentation, the Zipf R^2, and the null models (pure Python).
+* `finch_parse.py`: parses and validates the OCR'd finch dataset.
+* `ocr_finch.py`: Stage 1, the OCR (Tesseract).
+* `job_analyze.py`: Stage 2, the analysis, which runs only if the gate passed.
+* `inventory.py`: Stage 0, which fetched the supplements.
+* Tests: `python -m unittest -v test_zipfseg test_finch_parse`. One test checks our
+  segmentation against a literal transcription of the authors' Code S1.
 
 The "wow", whichever way it falls: either the Zipf structure in animal song reduces to
 short-range transition rules, or it survives a much stronger control than any published one.
