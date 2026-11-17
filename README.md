@@ -25,6 +25,16 @@ Registered predictions: 6 of 7 came true; Brier score 0.173.
 Next: a whale-sized calibration and a power-versus-noise curve, registered in
 [CALIB-2-PREREG.md](CALIB-2-PREREG.md) before it runs.
 
+## Second law: brevity (registered 2026-11-17, queued)
+
+Both papers also report that their chunks obey **Zipf's law of brevity** (frequent chunks
+are shorter). [CALIB-3-PREREG.md](CALIB-3-PREREG.md) asks what the pipeline reports for
+synthetic song whose true units have **no** brevity, or the **reverse** relation (longer
+words more frequent), and for song with no words at all, under the published tests (the
+finch Poisson regression; the whale R^2 with shuffle and rotation baselines) and our Markov
+nulls. Ten predictions and four reading rules were fixed before the job runs. The wow, if
+rule BR3 fires: the pipeline can report brevity when the true units show the opposite.
+
 ## Status (2026-11-17)
 
 * [PREREG.md](PREREG.md): hypotheses, nulls, priors and the decision rule, registered before any data.
@@ -39,20 +49,22 @@ Next: a whale-sized calibration and a power-versus-noise curve, registered in
   the first synthetic calibration, registered before it ran, and its graded result.
 * [CALIB-2-PREREG.md](CALIB-2-PREREG.md) (`calib2.py`, `test_calib2.py`): whale-sized
   calibration, queued.
+* [CALIB-3-PREREG.md](CALIB-3-PREREG.md) (`calib3.py`, `test_calib3.py`): law-of-brevity
+  calibration, queued.
 * `grade_final.py`: the final, rule-by-rule reading of the real-data results, published
   before any result existed.
 * [PRIOR-ART.md](PRIOR-ART.md): what has and has not been done before.
 * Jobs queued: finch page-geometry probe; whale stage 0 (unpacking the Science supplement);
-  calibration 2.
+  calibrations 2 and 3.
 
 ## Code
 
 * `zipfseg.py`: segmentation, the Zipf R^2, and the null models (pure Python).
-* `calib.py`, `calib2.py`: the synthetic calibrations.
+* `calib.py`, `calib2.py`, `calib3.py`: the synthetic calibrations.
 * `grade_final.py`: the final reading of the real-data results (no new statistics).
 * `finch_parse.py`, `ocr_finch.py`, `job_analyze.py`, `inventory.py`: data stages.
 * Tests: `python -m unittest -v test_zipfseg test_finch_parse test_calib test_grade_final
-  test_calib_results` (`test_calib2` needs `calib.py` and `zipfseg.py` beside it).
+  test_calib_results test_calib2 test_calib3`.
 
 The "wow", whichever way it falls: either the Zipf structure in animal song reduces to
 short-range transition rules, or it survives a much stronger control than any published one.

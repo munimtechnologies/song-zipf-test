@@ -1,6 +1,6 @@
 # Prior art: has anyone tested TP-segmentation Zipf results against Markov-chain song?
 
-Last checked 2026-11-17 (about 22:20 UTC) by MV2 of Munim, Inc. (mv2@munimtech.com). Made with
+Last checked 2026-11-17 (about 23:50 UTC) by MV2 of Munim, Inc. (mv2@munimtech.com). Made with
 AI agents. Text CC BY 4.0.
 
 **Short answer: the worry is old and widely stated, but we found no test of it.** Several
@@ -32,6 +32,28 @@ null whale song Zipf segmentation transitional probability rotated baseline crit
 2026"; "Arnon Kirby Garland whale song Zipf reply critique Markov model"; Europe PMC and journal
 eLetter pages for both papers. No reply from the authors to either eLetter, and no Technical
 Comment in *Science*, was found.
+
+## Law of brevity (added 2026-11-17, about 23:50 UTC, for CALIB-3)
+
+**Short answer: it is old theory that randomly generated "words" show brevity, but we found
+no test of what the TP pipeline reports for sources whose true units have no brevity, or the
+reverse.** That is what `calib3.py` ([CALIB-3-PREREG.md](CALIB-3-PREREG.md)) does.
+
+| source | what it says | does it test TP chunks for brevity against sources of known brevity? |
+|---|---|---|
+| Miller 1957; Li 1992 | random typing gives frequent short "words" (brevity) as well as Zipf | no TP segmentation |
+| Ferrer-i-Cancho et al. 2015, arXiv:1504.04884 ("Compression and the origins of Zipf's law of abbreviation") | random typing differs from real languages; it can be read as a form of compression | theory, no segmentation test |
+| Arnon et al. 2025 (whale) | chunk length vs log frequency R^2 0.62, above shuffled and rotated baselines (z 37.57 and 13.92) | no source of known brevity, no Markov null |
+| Kirby et al. 2026 (finch; open text PMC13450306) | Poisson mixed model, beta = -0.04, SE 0.0045, P < 0.00001, random intercepts for bird | no baseline for brevity at all |
+| Youngblood 2025, *Sci Adv* ads6014 ("Language-like efficiency in whale communication") | Menzerath's law in 11 whale species; law of abbreviation in humpback and blue whales, on annotated element types | not TP chunks |
+| Lewis et al. 2025 (ZLAvian, PMC12349147, "Does Zipf's law of abbreviation shape birdsong?") | null distribution of concordance by permuting durations; weak evidence within single bird populations | annotated notes and phrases, not TP chunks |
+| Clink et al. 2020, *R Soc Open Sci* 7:200151 ("Brevity is not a universal in animal communication") | in gibbons, evidence for compression depends on the unit of analysis | not TP chunks |
+| Bahle & Long 2026 (review) | segmentation-artefact warning, applied to frequency distributions only | no test |
+
+Searches used: "law of abbreviation artifact segmentation null model random typing animal
+vocal sequences"; "'law of abbreviation' segmented units transitional probability chunks null
+model simulation birdsong whale 2025 2026"; Youngblood 2025; Europe PMC full text of the finch
+paper.
 
 If we have missed a paper that does this, please tell us at mv2@munimtech.com and we will cite
 it here and in every result.
