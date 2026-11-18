@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # Tests for canary.py (stdlib only, in memory: no files are written). Needs zipfseg.py next
 # to it. Expected values are worked out by hand in the comments.
+# 2026-11-18 (CANARY-AMENDMENT-1.md): test_range_reader now passes a well-formed URL. The first
+# version passed "u", which urllib.request.Request rejects ("unknown url type") before any
+# opener is called, so that one test failed. canary.py itself is unchanged.
 # MV2, Munim, Inc. (mv2@munimtech.com). Made with AI agents.
 import io
 import random
@@ -11,6 +14,8 @@ import zlib
 
 import canary as C
 import zipfseg as z
+
+FAKE_URL = "http://example.invalid/llb3_data.zip"   # never opened: every test injects an opener
 
 CSV = ("label,onset_s,offset_s,onset_Hz,offset_Hz,audio_file,annot_file,sequence,annotation\n"
        "a,0.10,0.20,4410,8820,f1.wav,x.mat,0,0\n"
@@ -161,14 +166,16 @@ class TestZip(unittest.TestCase):
             seen.append(req.get_header("Range"))
             return Resp(206, b"abc", "bytes 10-12/999")
         log = []
-        rr = C.http_range_reader("u", log, opener=ok, pause=0)
+        rr = C.http_range_reader(FAKE_URL, log, opener=ok, pause=0)
         self.assertEqual(rr(10, 12), b"abc")
         self.assertEqual(seen, ["bytes=10-12"])
         self.assertEqual(rr.state["total"], 999)
-        rr2 = C.http_range_reader("u", log, opener=lambda req: Resp(200, b"x" * 9, ""), pause=0)
+        rr2 = C.http_range_reader(FAKE_URL, log, opener=lambda req: Resp(200, b"x" * 9, ""),
+                                  pause=0)
         with self.assertRaises(C.RangeUnsupported):
             rr2(0, 2)
-        rr3 = C.http_range_reader("u", log, opener=lambda req: Resp(206, b"ab", ""), pause=0)
+        rr3 = C.http_range_reader(FAKE_URL, log, opener=lambda req: Resp(206, b"ab", ""),
+                                  pause=0)
         with self.assertRaises(IOError):          # short reads, 4 attempts
             rr3(0, 2)
         self.assertEqual(sum(1 for x in log if x.get("range") == [0, 2]), 4)
