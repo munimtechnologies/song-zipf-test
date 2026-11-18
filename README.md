@@ -43,6 +43,17 @@ element-to-element transition rules that a first-order chain already captures, o
 song beats even a second-order chain, which is much stronger evidence for word-like units
 than the paper could show.
 
+## The real finch test: a new reading step (registered 2026-11-18)
+
+[PREREG-AMENDMENT-4.md](PREREG-AMENDMENT-4.md). The finch songs are printed in the
+supplement as vector outlines with no text layer, and OCR lost the printed spaces (the
+authors' chunk boundaries). The new reader, `glyph_finch.py`, reads the outlines themselves.
+The same letter always has the same outline, and a space is a measurable gap. Bird names and
+ages are solved from the six birds and 30 recordings the authors list. The registered gate,
+the analysis and every prediction are unchanged. The analysis runs only if the reading
+reproduces the authors' own totals (299 bouts, 19,990 transitions, 3,205 cuts, 1,043 chunk
+types).
+
 ## Second law: brevity (registered 2026-11-17/18, queued)
 
 Both papers also report that their chunks obey **Zipf's law of brevity** (frequent chunks
@@ -66,8 +77,10 @@ are shorter).
   finch data are printed in the supplement only as page images, so they are read by OCR
   behind a pre-registered gate (299 bouts, 19,990 transitions, 3,205 cuts, 1,043 types).
 * [FINCH-GATE-NOTE-1.md](FINCH-GATE-NOTE-1.md): the first OCR pass failed the gate, so no
-  finch analysis was run. Only the reading step will change; a probe of the page geometry
-  is queued.
+  finch analysis was run.
+* [PREREG-AMENDMENT-4.md](PREREG-AMENDMENT-4.md) (`glyph_finch.py`, `test_glyph_finch.py`,
+  `setup_finch2.sh`): the vector-geometry reader, behind the same gate, queued as job
+  `song-zipf-finch-v2`.
 * [PREREG-AMENDMENT-2.md](PREREG-AMENDMENT-2.md) and [RESULTS-CALIB.md](RESULTS-CALIB.md):
   the first synthetic calibration, registered before it ran, and its graded result.
 * [CALIB-2-PREREG.md](CALIB-2-PREREG.md) (`calib2.py`, `test_calib2.py`): whale-sized
@@ -81,7 +94,8 @@ are shorter).
 * `grade_final.py`: the final, rule-by-rule reading of the finch results, published
   before any result existed.
 * [PRIOR-ART.md](PRIOR-ART.md): what has and has not been done before.
-* Jobs queued: finch page-geometry probe; whale unpacking and test; calibrations 2, 3 and 4.
+* Jobs queued: finch reading v2 and analysis; whale unpacking and test; calibrations 2, 3
+  and 4.
 
 ## Code
 
@@ -89,9 +103,10 @@ are shorter).
 * `calib.py`, `calib2.py`, `calib3.py`, `calib4.py`: the synthetic calibrations.
 * `whale_read.py`, `whale_test.py`, `whale_stage0.py`: the real whale data stages.
 * `grade_final.py`: the final reading of the finch results (no new statistics).
-* `finch_parse.py`, `ocr_finch.py`, `job_analyze.py`, `inventory.py`: data stages.
-* Tests: `python -m unittest -v test_zipfseg test_finch_parse test_calib test_grade_final
-  test_calib_results test_calib2 test_calib3 test_calib4 test_whale_test`.
+* `glyph_finch.py` (reading v2), `finch_parse.py`, `ocr_finch.py` (reading v1),
+  `job_analyze.py`, `inventory.py`: finch data stages.
+* Tests: `python -m unittest -v test_zipfseg test_finch_parse test_glyph_finch test_calib
+  test_grade_final test_calib_results test_calib2 test_calib3 test_calib4 test_whale_test`.
 
 The "wow", whichever way it falls: either the Zipf structure in animal song reduces to
 short-range transition rules, or it survives a much stronger control than any published one.
