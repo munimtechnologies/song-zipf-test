@@ -22,8 +22,26 @@ informative one. Our own second-order test separated clean word-like song from M
 (40 of 40 and 0 of 40), but lost most of its power when 10% of syllables were noisy (2 of 20).
 Registered predictions: 6 of 7 came true; Brier score 0.173.
 
-Next: a whale-sized calibration and a power-versus-noise curve, registered in
-[CALIB-2-PREREG.md](CALIB-2-PREREG.md) before it runs.
+## The real whale test (registered 2026-11-18, before the data are opened)
+
+[PREREG-AMENDMENT-3.md](PREREG-AMENDMENT-3.md) fixes the whole real-data test of the whale
+paper before anyone working for MV2 has opened its data files. It runs the paper's
+pipeline on its own eight years of song strings (one segmentation per year, recordings kept
+apart, cutting ratio 0.5). It then asks whether the Zipf fit (paper: mean R^2 0.93) and the
+law of brevity (R^2 0.62) beat Markov chains fitted to each year's own sound-element
+transitions, not only the paper's shuffle and rotation baselines.
+
+* **Reading gate:** the data reader is accepted only if it reproduces Table S1 of the paper
+  (recordings and sound elements per year, 55 recordings and 45,760 elements in all).
+* **Reproduction check:** no headline unless our pipeline finds the paper's most frequent
+  sub-sequence (Table S2) in at least 6 of the 8 years.
+* **Thirteen predictions** with priors, labels from PREREG.md, and calibration conditions
+  from CALIB-2 and CALIB-4, all coded in `whale_test.py` before it runs.
+
+The wow, whichever way it falls: either the "language-like" laws in whale song come from
+element-to-element transition rules that a first-order chain already captures, or whale
+song beats even a second-order chain, which is much stronger evidence for word-like units
+than the paper could show.
 
 ## Second law: brevity (registered 2026-11-17/18, queued)
 
@@ -39,10 +57,6 @@ are shorter).
   sequence per year; R^2 = 0.62, shuffle z = 37.57, rotation z = 13.92 in the paper) at
   whale size: 8 years of 5,000-8,000 elements. Eleven predictions and four reading rules
   were fixed before it runs, and before any CALIB-2 or CALIB-3 result exists.
-
-The wow, if it lands: the whale paper's evidence that its chunks are "units relevant to the
-whales" (brevity beating both baselines) is reproduced by song made from syllable-transition
-rules with no words in it, or even by words whose true relation is the reverse.
 
 ## Status (2026-11-18)
 
@@ -62,20 +76,22 @@ rules with no words in it, or even by words whose true relation is the reverse.
   calibration, queued.
 * [CALIB-4-PREREG.md](CALIB-4-PREREG.md) (`calib4.py`, `test_calib4.py`): the whale
   brevity statistic as published, at whale size, queued.
-* `grade_final.py`: the final, rule-by-rule reading of the real-data results, published
+* [PREREG-AMENDMENT-3.md](PREREG-AMENDMENT-3.md) (`whale_read.py`, `whale_test.py`,
+  `whale_stage0.py`, `test_whale_test.py`): the real whale test, queued.
+* `grade_final.py`: the final, rule-by-rule reading of the finch results, published
   before any result existed.
 * [PRIOR-ART.md](PRIOR-ART.md): what has and has not been done before.
-* Jobs queued: finch page-geometry probe; whale stage 0 (unpacking the Science supplement);
-  calibrations 2, 3 and 4.
+* Jobs queued: finch page-geometry probe; whale unpacking and test; calibrations 2, 3 and 4.
 
 ## Code
 
 * `zipfseg.py`: segmentation, the Zipf R^2, and the null models (pure Python).
 * `calib.py`, `calib2.py`, `calib3.py`, `calib4.py`: the synthetic calibrations.
-* `grade_final.py`: the final reading of the real-data results (no new statistics).
+* `whale_read.py`, `whale_test.py`, `whale_stage0.py`: the real whale data stages.
+* `grade_final.py`: the final reading of the finch results (no new statistics).
 * `finch_parse.py`, `ocr_finch.py`, `job_analyze.py`, `inventory.py`: data stages.
 * Tests: `python -m unittest -v test_zipfseg test_finch_parse test_calib test_grade_final
-  test_calib_results test_calib2 test_calib3 test_calib4`.
+  test_calib_results test_calib2 test_calib3 test_calib4 test_whale_test`.
 
 The "wow", whichever way it falls: either the Zipf structure in animal song reduces to
 short-range transition rules, or it survives a much stronger control than any published one.
