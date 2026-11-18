@@ -3,6 +3,16 @@
 Graded 2026-11-18 by MV2 of Munim, Inc. (mv2@munimtech.com). Made with AI agents working in
 his name. Text CC BY 4.0; code Apache-2.0. Re-derived by `test_finch_results.py`.
 
+> **Note added 2026-11-18 (registered rule L1, [RESULTS-CDS.md](RESULTS-CDS.md)).** We ran the
+> same test on real child-directed English at the same size (30 recordings of about 650
+> phonemes). English did not beat the second-order chain either (p = 0.49). By the rule fixed
+> before that test ran, the label below is reported as **not distinguishable from what real
+> English gives at this size**, never as evidence that finch song lacks words. One difference
+> is on record: the English second-order chain was overfit (it generalised better than the
+> first-order chain in only 1 of 30 recordings, so it carries the registered overfit caveat),
+> while the finch chain was not (30 of 30). At the size of the whale data, English did beat
+> the second-order chain (p = 0.005).
+
 ## Headline
 
 Kirby, Okanoya, Garland, Takahasi & Arnon (2026, *Science Advances*, eaea3015) found that
@@ -25,7 +35,8 @@ copying the data: on held-out bouts it predicts better than the first-order chai
 What this means: the rank-frequency evidence for "language-like" units in finch song is
 fully accounted for by short-range syllable-transition rules that have been known in this
 species since Katahira et al. (2011). It does not show that finches have no word-like
-units. It shows that this statistic cannot see past second-order syntax in these data.
+units. It shows that this statistic cannot see past second-order syntax in these data, and
+(note above) at this size it does not see past it in real English either.
 
 ## Reproduction of the published numbers (theta = cutting ratio)
 
@@ -89,6 +100,10 @@ at least 0.80, the level usually read as "Zipfian".
   word-like chunks in 100% of replicates with 0% or 2% syllable noise, 85% with 5% noise, and
   10% with 10% noise. **This label cannot exclude word-like chunks degraded by 10% noise.**
   ([RESULTS-CALIB-2.md](RESULTS-CALIB-2.md))
+* **Human-language control (CDS rule L1, added 2026-11-18):** `LANGUAGE_FAILS_AT_FINCH_SIZE`.
+  Real English at this size is also `EXPLAINED_BY_SECOND_ORDER` at theta 0.5 (with the overfit
+  caveat). At theta 0.3, English beat the second-order chain (p = 0.001) and finch song did not
+  (p = 0.106). ([RESULTS-CDS.md](RESULTS-CDS.md))
 
 ## Hand checks (Amendment 1 requires at least 20 rows before grading)
 
@@ -113,7 +128,8 @@ published discussion includes the eLetters "Zipf zapped" and Lameira & Hills ("S
 flares..."), press comments (e.g. R. Futrell: "a million different things can give rise to
 Zipf's law"), and work showing that finch syntax needs second-order or hidden-state models
 (Katahira et al. 2011, PLoS ONE; partially observable Markov models, bioRxiv
-10.1101/2022.11.15.516592). See [PRIOR-ART.md](PRIOR-ART.md).
+10.1101/2022.11.15.516592). Charpentier (2026, arXiv:2608.09459) recommends stronger
+surrogates for both papers without reanalysing them. See [PRIOR-ART.md](PRIOR-ART.md).
 
 ## What this does NOT show
 
@@ -121,12 +137,12 @@ Zipf's law"), and work showing that finch syntax needs second-order or hidden-st
   stereotyped "chunks", and second-order rules are one way to produce them. The point is
   narrower: the Zipf fit carries no information about units **beyond** second-order
   transition statistics.
-* We do not yet know whether the test can find **real human words** at this data size. That
-  is the next registered test ([CDS-PREREG.md](CDS-PREREG.md): child-directed English at
-  finch and whale size). If English also fails to beat a second-order chain, this label will
-  be reported as "not distinguishable from real language" (rule L1).
+* It is not a contrast with human language. At this data size the same test did not find
+  real English words beyond a second-order phoneme chain at theta 0.5
+  ([RESULTS-CDS.md](RESULTS-CDS.md), rule L1). English has 50 phoneme types against the
+  finch's 10 syllable letters, so the comparison is not matched.
 * It is one species, 6 birds and 30 recordings. The whale test is registered separately
-  ([PREREG-AMENDMENT-3.md](PREREG-AMENDMENT-3.md)).
+  ([PREREG-AMENDMENT-3.md](PREREG-AMENDMENT-3.md), [PREREG-AMENDMENT-5.md](PREREG-AMENDMENT-5.md)).
 * Low power against noisy words (above). The robustness criterion we set ourselves fails
   because at theta 0.7 the result is even weaker (first order suffices).
 * The law of brevity in finch song is not tested here. [RESULTS-CALIB-3.md](RESULTS-CALIB-3.md)
