@@ -29,29 +29,37 @@ rotation, in 20 of 20 replicates (z 24.7 and 21.4; whale: 23.1 and 14.4). Clean 
 passed those controls less often (10 of 20). Our own second-order test has no power on clean
 words at whale size, so a whale `EXPLAINED_BY` label will be reported as `NOT_DISTINGUISHABLE`.
 
-**3. Law of brevity: the pipeline reports it even when the truth is the opposite.**
-[RESULTS-CALIB-3.md](RESULTS-CALIB-3.md). Synthetic song whose true words are *longer when more
-frequent* showed significant brevity (P < 0.00001) in 20 of 20 replicates once cut by the
-published method. So did wordless song and shuffled song. A significant brevity slope on these
-chunks is not evidence of efficient units.
+**3. Whale brevity calibration: song with no words passes the whale paper's brevity
+controls.** [RESULTS-CALIB-4.md](RESULTS-CALIB-4.md). With the paper's statistic at whale size,
+wordless song passed both brevity controls (shuffle, rotation) in 20 of 20 replicates in all
+three wordless scenarios (z 28-86 and 10-14; whale: 37.6 and 13.9). Units with the *reverse*
+relation were reported as brevity-following and passed in 18 of 20. But no synthetic source
+came near the whale's R^2 of 0.62 (wordless 0.09-0.17, words 0.21-0.45), and the pooled Markov
+nulls have the right size and real power here, so they decide the real whale brevity test.
 
-**4. Finch-sized calibration.** [RESULTS-CALIB.md](RESULTS-CALIB.md). Wordless first-order song
+**4. Law of brevity, finch size: the pipeline reports it even when the truth is the
+opposite.** [RESULTS-CALIB-3.md](RESULTS-CALIB-3.md). Synthetic song whose true words are
+*longer when more frequent* showed significant brevity (P < 0.00001) in 20 of 20 replicates
+once cut by the published method. So did wordless song and shuffled song.
+
+**5. Finch-sized calibration.** [RESULTS-CALIB.md](RESULTS-CALIB.md). Wordless first-order song
 passes both published controls in 20 of 20 replicates (mean R^2 0.85).
 
 The wow so far: the statistical "language-like" evidence for words in both papers is
 reproduced by song with no words. For the finch, the published Zipf fit is fully explained by
-second-order syllable syntax.
+second-order syllable syntax. For the whale, the open question is now sharp: does real whale
+song beat a Markov chain fitted to its own element transitions?
 
 ## Still running
 
-* **Real whale test** ([PREREG-AMENDMENT-3.md](PREREG-AMENDMENT-3.md); `whale_read.py`,
-  `whale_test.py`, `whale_stage0.py`): registered before the data were opened, queued.
-* **CALIB-4** ([CALIB-4-PREREG.md](CALIB-4-PREREG.md)): the whale brevity statistic exactly as
-  the paper's text defines it, at whale size, queued.
+* **Real whale test** ([PREREG-AMENDMENT-3.md](PREREG-AMENDMENT-3.md),
+  [PREREG-AMENDMENT-5.md](PREREG-AMENDMENT-5.md); `whale_run.py`, `whale_test.py`): the first
+  reading gate failed because Data S2 is grouped by song type, not calendar year (no statistic
+  was computed). The new reading follows the authors' Code S1 and must reproduce Code S1's own
+  printed output exactly (R^2 0.9302888665216734, 3,386 types). Queued as `whale-test-v1`.
 * **Human-language positive control** ([CDS-PREREG.md](CDS-PREREG.md); `cds_job.py`): the same
   pipeline and Markov nulls on phonemically transcribed child-directed English (Brent-Ratner
-  corpus) at finch and whale size. Does real language beat a second-order chain where finch
-  song did not? Registered 2026-11-18 before the corpus was downloaded; queued.
+  corpus) at finch and whale size. Queued.
 
 ## Registration trail
 
@@ -61,8 +69,12 @@ second-order syllable syntax.
 * [PREREG-AMENDMENT-2.md](PREREG-AMENDMENT-2.md): synthetic calibration and its reading rules.
 * [FINCH-GATE-NOTE-1.md](FINCH-GATE-NOTE-1.md): the first (OCR) reading failed its gate; no
   analysis ran.
-* [PREREG-AMENDMENT-4.md](PREREG-AMENDMENT-4.md): the vector-glyph reader (`glyph_finch.py`),
-  same gate. It passed exactly.
+* [PREREG-AMENDMENT-3.md](PREREG-AMENDMENT-3.md): the real whale test, before the data were
+  opened.
+* [PREREG-AMENDMENT-4.md](PREREG-AMENDMENT-4.md): the vector-glyph finch reader
+  (`glyph_finch.py`), same gate. It passed exactly.
+* [PREREG-AMENDMENT-5.md](PREREG-AMENDMENT-5.md): the whale reading by song type, with an exact
+  Code S1 reproduction gate.
 * [CALIB-2-PREREG.md](CALIB-2-PREREG.md), [CALIB-3-PREREG.md](CALIB-3-PREREG.md),
   [CALIB-4-PREREG.md](CALIB-4-PREREG.md): later calibrations, each registered before it ran.
 * `grade_final.py`: the final reading of the finch result, published before any result.
@@ -73,11 +85,13 @@ second-order syllable syntax.
 * `zipfseg.py`: segmentation, the Zipf R^2 and the null models (pure Python).
 * `calib.py`, `calib2.py`, `calib3.py`, `calib4.py`: the synthetic calibrations.
 * `glyph_finch.py`, `finch_parse.py`, `job_analyze.py` (and the retired `ocr_finch.py`): finch stages.
-* `whale_read.py`, `whale_test.py`, `whale_stage0.py`: whale stages.
+* `whale_read.py`, `whale_test.py`, `whale_stage0.py`, `whale_run.py`: whale stages.
+* `cds_job.py`: the human-language positive control.
 * Tests: `python -m unittest -v test_zipfseg test_finch_parse test_glyph_finch test_calib
   test_grade_final test_calib_results test_calib2 test_calib3 test_calib4 test_whale_test
-  test_finch_results test_calib2_results test_calib3_results`. The `test_*_results.py`
-  files re-derive every number in the RESULTS files from `results/`.
+  test_whale_run test_cds_job test_finch_results test_calib2_results test_calib3_results
+  test_calib4_results`. The `test_*_results.py` files re-derive every number in the RESULTS
+  files from `results/`.
 
 Raw data from the two papers are not redistributed here. The finch data are CC BY-NC
 (regenerate them from the authors' supplement with `glyph_finch.py`), and the whale data are
