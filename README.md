@@ -14,69 +14,62 @@ human language (child-directed English) as a positive control.
 
 ## Results so far (2026-11-18)
 
-**1. Finch, real data: the Zipf structure is matched by second-order syllable rules, and so
+**1. Whale, real data: the Zipf law is fully reproduced by a second-order chain fitted to the
+song's own transitions, and the test's power check says it cannot see words here.**
+[RESULTS-WHALE.md](RESULTS-WHALE.md). On the authors' own data and code we reproduce their Zipf
+R^2 to the last digit (0.9302888665216728 against Code S1's 0.9302888665216734) and their top
+chunk in 8 of 8 years. The song beats the paper's controls and a first-order chain, but a
+second-order chain with no words in it gives song that is more Zipfian than the real song (R^2
+0.939 against 0.930, p = 0.970). Label `NOT_DISTINGUISHABLE` (not robust: at the loosest
+thresholds, 0.25 and 0.3, the song does beat that chain). The held-out power check D1 favours
+order 2 in only 1 of 8 years, the regime in which real English words are missed too (result 2).
+Our brevity statistic did not reproduce the paper's R^2 of 0.62 (we got 0.021), so no brevity
+label is drawn; that is a gap in our reproduction, not evidence against the paper.
+
+**2. English size curve: the test finds real words from about 2,700 phonemes per recording,
+and D1 predicts when it can.** [RESULTS-CDS-SIZE.md](RESULTS-CDS-SIZE.md). 17 replicates of 8
+recordings of child-directed English, from 647 to 11,748 phonemes per recording: detected 0 of
+5 at finch size, 1 of 5 at 1,380, and every time from 2,745 up. Replicates in which order 2
+generalises better than order 1 in most recordings (D1 majority) were detected 7 of 7 times;
+the others 1 of 10. All 7 registered predictions came true (Brier 0.120). Every replicate
+passed the published shuffle and rotation controls.
+
+**3. Finch, real data: the Zipf structure is matched by second-order syllable rules, and so
 is English at the same size.** [RESULTS-FINCH.md](RESULTS-FINCH.md). On the authors' own song
 strings and code we reproduce their numbers (mean R^2 0.889 against 0.89; bigram z 6.94 against
 6.77). A second-order Markov chain fitted to each recording, with no words in it, gives song as
 Zipfian as the real song (p = 0.137); a first-order chain does not (p = 0.001). Label:
-`EXPLAINED_BY_SECOND_ORDER`. Because real English at the same size also failed to beat the
-second-order chain (result 2), this label is reported as not distinguishable from what real
+`EXPLAINED_BY_SECOND_ORDER`. Because real English at the same size also fails to beat the
+second-order chain (results 2 and 4), this is reported as not distinguishable from what real
 English gives, not as evidence that finch song lacks words.
 
-**2. Human-language positive control: the test finds real English words at whale size but
-not at finch size.** [RESULTS-CDS.md](RESULTS-CDS.md). Child-directed English (Brent-Ratner
-corpus, phonemes with the word spaces removed) through the same pipeline: at finch size (30 x
-about 650 phonemes) English does not beat the second-order chain (p = 0.49), and that chain is
-overfit (it generalises better than first order in only 1 of 30 recordings). At whale size (8 x
-about 6,150 phonemes) English beats every null, including the second-order chain (z = 5.6,
-p = 0.005, the floor for 200 null datasets), with no overfitting (8 of 8). So the pending whale
-test can see a real vocabulary at that size. Neither label is robust across thresholds.
+**4. Human-language positive control.** [RESULTS-CDS.md](RESULTS-CDS.md). At finch size (30 x
+about 650 phonemes) English does not beat the second-order chain (p = 0.49); at whale size (8 x
+about 6,150 phonemes) it beats every null (z = 5.6, p = 0.005).
 
-**3. Whale-sized calibration: song with no words reproduces the whale paper's Zipf numbers.**
-[RESULTS-CALIB-2.md](RESULTS-CALIB-2.md). Wordless first-order song at the size of the whale
-data gives mean R^2 0.917 (whale: 0.93) and beats the paper's only two controls, shuffle and
-rotation, in 20 of 20 replicates (z 24.7 and 21.4; whale: 23.1 and 14.4). Clean word-like song
-with a 12-word lexicon passed those controls less often (10 of 20), and our second-order test
-missed it, so a whale `EXPLAINED_BY` label will be reported as `NOT_DISTINGUISHABLE`.
+**5. Calibrations on song whose truth is known.** Wordless song at whale size reproduces the
+whale paper's Zipf numbers and passes both of its controls 20 of 20 times
+([RESULTS-CALIB-2.md](RESULTS-CALIB-2.md)) and passes its brevity controls 20 of 20 times
+([RESULTS-CALIB-4.md](RESULTS-CALIB-4.md)); units whose true relation is the reverse of
+brevity are still reported as brevity-following ([RESULTS-CALIB-3.md](RESULTS-CALIB-3.md));
+wordless song passes the finch paper's controls 20 of 20 times
+([RESULTS-CALIB.md](RESULTS-CALIB.md)).
 
-**4. Whale brevity calibration: song with no words passes the whale paper's brevity
-controls.** [RESULTS-CALIB-4.md](RESULTS-CALIB-4.md). With the paper's statistic at whale size,
-wordless song passed both brevity controls (shuffle, rotation) in 20 of 20 replicates in all
-three wordless scenarios (z 28-86 and 10-14; whale: 37.6 and 13.9). Units with the *reverse*
-relation were reported as brevity-following and passed in 18 of 20. But no synthetic source
-came near the whale's R^2 of 0.62 (wordless 0.09-0.17, words 0.21-0.45), and the pooled Markov
-nulls have the right size and real power here, so they decide the real whale brevity test.
-
-**5. Law of brevity, finch size: the pipeline reports it even when the truth is the
-opposite.** [RESULTS-CALIB-3.md](RESULTS-CALIB-3.md). Synthetic song whose true words are
-*longer when more frequent* showed significant brevity (P < 0.00001) in 20 of 20 replicates
-once cut by the published method. So did wordless song and shuffled song.
-
-**6. Finch-sized calibration.** [RESULTS-CALIB.md](RESULTS-CALIB.md). Wordless first-order song
-passes both published controls in 20 of 20 replicates (mean R^2 0.85).
-
-The published controls (shuffle and rotation) are passed alike by English, finch song and song
-with no words. The open question is now sharp: at whale size, where this test does find real
-English words, does real whale song beat a Markov chain fitted to its own element transitions?
+**Where this leaves the two papers.** The controls both papers rely on (shuffling and
+rotation) are passed alike by English, finch song, whale song and song with no words. A Markov
+chain fitted to each species' own transitions reproduces its Zipf law at the registered
+threshold. Whether either species has word-like units is still open: at the data sizes
+published, the held-out check says this kind of test cannot tell. D1 costs nothing to run, and
+we suggest reporting it next to any animal-song Zipf result.
 
 ## Still running
 
-* **Real whale test** ([PREREG-AMENDMENT-3.md](PREREG-AMENDMENT-3.md),
-  [PREREG-AMENDMENT-5.md](PREREG-AMENDMENT-5.md); `whale_run.py`, `whale_test.py`): the first
-  reading gate failed because Data S2 is grouped by song type, not calendar year (no statistic
-  was computed). The new reading follows the authors' Code S1 and must reproduce Code S1's own
-  printed output exactly (R^2 0.9302888665216734, 3,386 types). Queued as `whale-test-v1`.
-* **Size curve on English** ([CDS-SIZE-PREREG.md](CDS-SIZE-PREREG.md); `cds_size.py`): 17
-  replicates of 8 recordings from about 650 to 11,800 phonemes each. Where does the test start
-  to find real words, and does the held-out overfit check (D1) predict that in advance? Queued
-  as `song-zipf-cdssize-v1`.
 * **Finch song in other birds, at full size** ([XPOP-PREREG.md](XPOP-PREREG.md);
   `finch_xpop.py`): two public, hand-annotated Bengalese finch datasets from other recordings
   (Koumura & Okanoya 2016, 11 birds; Nicholson, Queen & Sober, 4 birds from a different
-  laboratory), at about 18,000 to 20,000 notes per bird instead of about 700. Does Kirby et
-  al.'s "above the bigram" result replicate, and does the Zipf structure go beyond second- or
-  third-order syllable rules once there is enough data to find English words? Queued as
-  `song-zipf-xpop-v1`; its grader (`test_xpop_results.py`) was published before it ran.
+  laboratory), at about 18,000 to 20,000 notes per bird instead of about 700, with a
+  third-order chain added. Queued as `song-zipf-xpop-v1`; its grader (`test_xpop_results.py`)
+  was published before it ran.
 
 ## Registration trail
 
@@ -98,10 +91,10 @@ English words, does real whale song beat a Markov chain fitted to its own elemen
   calibrations, the human-language control and the independent-bird test, each registered
   before it ran.
 * `grade_final.py`: the final reading of the finch result, published before any result.
-* `test_cds_size_results.py`, `test_xpop_results.py`: the graders of the English size curve and
-  the independent-bird test, published before those jobs ran. Each re-derives every label,
-  prediction, rule and Brier score from the raw output with its own code and fixes the result
-  tables' exact lines in advance.
+* `test_cds_size_results.py`, `test_xpop_results.py`: graders published before their jobs ran.
+  `test_whale_results.py` was written before the whale job finished but published with its
+  result (see RESULTS-WHALE.md). Each re-derives every label, prediction, rule and Brier score
+  from the raw output with its own code.
 * [PRIOR-ART.md](PRIOR-ART.md): what has and has not been done before.
 
 ## Code
@@ -116,14 +109,14 @@ English words, does real whale song beat a Markov chain fitted to its own elemen
   test_grade_final test_calib_results test_calib2 test_calib3 test_calib4 test_whale_test
   test_whale_run test_cds_job test_cds_size test_finch_xpop test_finch_results
   test_calib2_results test_calib3_results test_calib4_results test_cds_results
-  test_cds_size_results test_xpop_results`. The `test_*_results.py` files re-derive every number
-  in the RESULTS files from `results/`.
+  test_cds_size_results test_whale_results test_xpop_results`. The `test_*_results.py` files
+  re-derive every number in the RESULTS files from `results/`.
 
 Raw data are not redistributed here. The finch data of Kirby et al. are CC BY-NC (regenerate
 them from the authors' supplement with `glyph_finch.py`); the whale data are released for
-reproducing or extending the Zipfian analysis; the Brent-Ratner corpus is fetched from
-TalkBank/CHILDES at run time; the Koumura & Okanoya and Nicholson, Queen & Sober finch datasets
-(CC BY 4.0) are fetched from figshare at run time. `results/` holds derived statistics only.
+reproducing or extending the Zipfian analysis (`results/whale/` holds derived statistics only);
+the Brent-Ratner corpus is fetched from TalkBank/CHILDES at run time; the Koumura & Okanoya and
+Nicholson, Queen & Sober finch datasets (CC BY 4.0) are fetched from figshare at run time.
 
 Made with AI agents working in MV2's name. Code Apache-2.0; text CC BY 4.0.
 Contact: MV2, Munim, Inc., mv2@munimtech.com
