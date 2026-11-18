@@ -70,6 +70,13 @@ English words, does real whale song beat a Markov chain fitted to its own elemen
   replicates of 8 recordings from about 650 to 11,800 phonemes each. Where does the test start
   to find real words, and does the held-out overfit check (D1) predict that in advance? Queued
   as `song-zipf-cdssize-v1`.
+* **Finch song in other birds, at full size** ([XPOP-PREREG.md](XPOP-PREREG.md);
+  `finch_xpop.py`): two public, hand-annotated Bengalese finch datasets from other recordings
+  (Koumura & Okanoya 2016, 11 birds; Nicholson, Queen & Sober, 4 birds from a different
+  laboratory), at about 18,000 to 20,000 notes per bird instead of about 700. Does Kirby et
+  al.'s "above the bigram" result replicate, and does the Zipf structure go beyond second- or
+  third-order syllable rules once there is enough data to find English words? Queued as
+  `song-zipf-xpop-v1`; its grader (`test_xpop_results.py`) was published before it ran.
 
 ## Registration trail
 
@@ -86,28 +93,37 @@ English words, does real whale song beat a Markov chain fitted to its own elemen
 * [PREREG-AMENDMENT-5.md](PREREG-AMENDMENT-5.md): the whale reading by song type, with an exact
   Code S1 reproduction gate.
 * [CALIB-2-PREREG.md](CALIB-2-PREREG.md), [CALIB-3-PREREG.md](CALIB-3-PREREG.md),
-  [CALIB-4-PREREG.md](CALIB-4-PREREG.md), [CDS-PREREG.md](CDS-PREREG.md): later calibrations and
-  the human-language control, each registered before it ran.
+  [CALIB-4-PREREG.md](CALIB-4-PREREG.md), [CDS-PREREG.md](CDS-PREREG.md),
+  [CDS-SIZE-PREREG.md](CDS-SIZE-PREREG.md), [XPOP-PREREG.md](XPOP-PREREG.md): later
+  calibrations, the human-language control and the independent-bird test, each registered
+  before it ran.
 * `grade_final.py`: the final reading of the finch result, published before any result.
+* `test_cds_size_results.py`, `test_xpop_results.py`: the graders of the English size curve and
+  the independent-bird test, published before those jobs ran. Each re-derives every label,
+  prediction, rule and Brier score from the raw output with its own code and fixes the result
+  tables' exact lines in advance.
 * [PRIOR-ART.md](PRIOR-ART.md): what has and has not been done before.
 
 ## Code
 
 * `zipfseg.py`: segmentation, the Zipf R^2 and the null models (pure Python).
 * `calib.py`, `calib2.py`, `calib3.py`, `calib4.py`: the synthetic calibrations.
-* `cds_job.py`: the human-language positive control.
+* `cds_job.py`, `cds_size.py`: the human-language positive control and its size curve.
+* `finch_xpop.py`: the independent-bird finch test (Koumura and Nicholson datasets).
 * `glyph_finch.py`, `finch_parse.py`, `job_analyze.py` (and the retired `ocr_finch.py`): finch stages.
 * `whale_read.py`, `whale_test.py`, `whale_stage0.py`, `whale_run.py`: whale stages.
 * Tests: `python -m unittest -v test_zipfseg test_finch_parse test_glyph_finch test_calib
   test_grade_final test_calib_results test_calib2 test_calib3 test_calib4 test_whale_test
-  test_whale_run test_cds_job test_finch_results test_calib2_results test_calib3_results
-  test_calib4_results test_cds_results`. The `test_*_results.py` files re-derive every number
+  test_whale_run test_cds_job test_cds_size test_finch_xpop test_finch_results
+  test_calib2_results test_calib3_results test_calib4_results test_cds_results
+  test_cds_size_results test_xpop_results`. The `test_*_results.py` files re-derive every number
   in the RESULTS files from `results/`.
 
-Raw data are not redistributed here. The finch data are CC BY-NC (regenerate them from the
-authors' supplement with `glyph_finch.py`); the whale data are released for reproducing or
-extending the Zipfian analysis; the Brent-Ratner corpus is fetched from TalkBank/CHILDES at run
-time. `results/` holds derived statistics only.
+Raw data are not redistributed here. The finch data of Kirby et al. are CC BY-NC (regenerate
+them from the authors' supplement with `glyph_finch.py`); the whale data are released for
+reproducing or extending the Zipfian analysis; the Brent-Ratner corpus is fetched from
+TalkBank/CHILDES at run time; the Koumura & Okanoya and Nicholson, Queen & Sober finch datasets
+(CC BY 4.0) are fetched from figshare at run time. `results/` holds derived statistics only.
 
 Made with AI agents working in MV2's name. Code Apache-2.0; text CC BY 4.0.
 Contact: MV2, Munim, Inc., mv2@munimtech.com
