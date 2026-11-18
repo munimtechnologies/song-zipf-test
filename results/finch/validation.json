@@ -1,0 +1,359 @@
+{
+ "info": {
+  "sm_sha256": "1c91799782c41a812287deca4779eaf666cf0f82b812f281f503559310895740",
+  "sha_matches_inventory": true,
+  "caption_page": 48,
+  "dataset_pages": [
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54,
+   55,
+   56,
+   57,
+   58
+  ],
+  "pages": [
+   {
+    "page": 48,
+    "glyphs": 0,
+    "light_rects": 0
+   },
+   {
+    "page": 49,
+    "glyphs": 2644,
+    "light_rects": 91
+   },
+   {
+    "page": 50,
+    "glyphs": 2534,
+    "light_rects": 94
+   },
+   {
+    "page": 51,
+    "glyphs": 2024,
+    "light_rects": 112
+   },
+   {
+    "page": 52,
+    "glyphs": 3068,
+    "light_rects": 79
+   },
+   {
+    "page": 53,
+    "glyphs": 3376,
+    "light_rects": 67
+   },
+   {
+    "page": 54,
+    "glyphs": 1818,
+    "light_rects": 109
+   },
+   {
+    "page": 55,
+    "glyphs": 2177,
+    "light_rects": 103
+   },
+   {
+    "page": 56,
+    "glyphs": 2130,
+    "light_rects": 109
+   },
+   {
+    "page": 57,
+    "glyphs": 1706,
+    "light_rects": 115
+   },
+   {
+    "page": 58,
+    "glyphs": 781,
+    "light_rects": 28
+   }
+  ],
+  "space_gap": 2.25,
+  "coord_tol": 0.08
+ },
+ "best_config": "glyph_v1",
+ "configs": [
+  {
+   "config": "glyph_v1",
+   "parse_stats": {
+    "rows": 299
+   },
+   "validation": {
+    "recordings_found": 30,
+    "recordings_missing": [],
+    "bouts": 299,
+    "bouts_per_recording": {
+     "Atama 62": 10,
+     "Atama 69": 10,
+     "Atama 89": 10,
+     "Atama 103": 10,
+     "Atama 124": 10,
+     "LShiro 73": 10,
+     "LShiro 85": 10,
+     "LShiro 93": 10,
+     "LShiro 100": 10,
+     "LShiro 121": 10,
+     "RAo 61": 10,
+     "RAo 76": 10,
+     "RAo 87": 10,
+     "RAo 102": 10,
+     "RAo 127": 10,
+     "RKi 71": 10,
+     "RKi 79": 10,
+     "RKi 93": 10,
+     "RKi 106": 9,
+     "RKi 121": 10,
+     "RMo 70": 10,
+     "RMo 77": 10,
+     "RMo 91": 10,
+     "RMo 99": 10,
+     "RMo 125": 10,
+     "Shiro 64": 10,
+     "Shiro 78": 10,
+     "Shiro 92": 10,
+     "Shiro 105": 10,
+     "Shiro 120": 10
+    },
+    "syllables": 20289,
+    "transitions": 19990,
+    "printed_cuts": 3205,
+    "wraps": 107,
+    "pipeline_cuts": 3205,
+    "pipeline_cuts_per_bout": 10.719063545150501,
+    "pipeline_types": 1043,
+    "cut_agreement": {
+     "both": 3098,
+     "pipeline_only": 0,
+     "printed_only": 0,
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "bouts_identical": 299
+    },
+    "letters_per_bird": {
+     "Atama": {
+      "a": 1007,
+      "b": 531,
+      "c": 772,
+      "d": 327,
+      "e": 309,
+      "f": 319,
+      "g": 293,
+      "h": 266,
+      "i": 424,
+      "j": 175
+     },
+     "LShiro": {
+      "a": 358,
+      "b": 139,
+      "c": 346,
+      "d": 340,
+      "e": 260,
+      "f": 213,
+      "g": 138,
+      "h": 291
+     },
+     "RAo": {
+      "a": 1645,
+      "b": 438,
+      "c": 1050,
+      "d": 863,
+      "e": 842,
+      "f": 405,
+      "g": 603,
+      "h": 551
+     },
+     "RKi": {
+      "a": 682,
+      "b": 180,
+      "c": 182,
+      "d": 351,
+      "e": 177,
+      "f": 305,
+      "g": 247,
+      "h": 108
+     },
+     "RMo": {
+      "a": 541,
+      "b": 220,
+      "c": 219,
+      "d": 218,
+      "e": 214,
+      "f": 289,
+      "g": 535,
+      "h": 491,
+      "i": 227
+     },
+     "Shiro": {
+      "a": 369,
+      "b": 183,
+      "c": 187,
+      "d": 779,
+      "e": 103,
+      "f": 550,
+      "g": 27
+     }
+    },
+    "rare_letters_per_bird": {
+     "Atama": [],
+     "LShiro": [],
+     "RAo": [],
+     "RKi": [],
+     "RMo": [],
+     "Shiro": []
+    },
+    "bad_chars": 0,
+    "header_cost_nonzero": 0,
+    "exact": {
+     "recordings": true,
+     "bouts": true,
+     "transitions": true,
+     "pipeline_cuts": true,
+     "pipeline_types": true
+    },
+    "n_exact": 5,
+    "gate": "PASS_EXACT"
+   },
+   "stderr_tail": []
+  }
+ ],
+ "gate": "PASS_EXACT",
+ "glyph": {
+  "n_glyphs": 22258,
+  "n_classes": 42,
+  "n_bands": 299,
+  "n_glyphs_outside_bands": 15,
+  "bands_without_day_cell": 0,
+  "bird_cell_sequences": [
+   {
+    "classes": [
+     12,
+     13,
+     14,
+     15,
+     14
+    ],
+    "count": 50,
+    "name": "Atama"
+   },
+   {
+    "classes": [
+     33,
+     34,
+     19,
+     25,
+     35,
+     36
+    ],
+    "count": 50,
+    "name": "LShiro"
+   },
+   {
+    "classes": [
+     39,
+     12,
+     36
+    ],
+    "count": 50,
+    "name": "RAo"
+   },
+   {
+    "classes": [
+     39,
+     41,
+     36
+    ],
+    "count": 50,
+    "name": "RMo"
+   },
+   {
+    "classes": [
+     34,
+     19,
+     25,
+     35,
+     36
+    ],
+    "count": 50,
+    "name": "Shiro"
+   },
+   {
+    "classes": [
+     39,
+     40,
+     25
+    ],
+    "count": 49,
+    "name": "RKi"
+   }
+  ],
+  "name_solutions": 1,
+  "day_solutions": 1,
+  "day_pairs_used": 30,
+  "day_pairs_seen": 30,
+  "seq_classes": 10,
+  "label_sources": {
+   "name": 3,
+   "ocr": 6,
+   "fallback": 1
+  },
+  "seq_gap_hist_0.25pt": {
+   "0.25": 3,
+   "0.5": 1058,
+   "0.75": 2441,
+   "1.0": 6481,
+   "1.25": 4406,
+   "1.5": 2396,
+   "2.75": 15,
+   "3.0": 66,
+   "3.25": 161,
+   "3.5": 422,
+   "3.75": 2015,
+   "4.0": 419
+  },
+  "seq_gaps_ambiguous_1.9_2.6": 0,
+  "seq_gaps_negative": 0,
+  "possible_class_splits": [
+   [
+    16,
+    27
+   ]
+  ],
+  "build_stats": {
+   "rows": 299
+  }
+ },
+ "space_gap_sensitivity": {
+  "2.0": {
+   "printed_cuts": 3205,
+   "cut_agreement": {
+    "both": 3098,
+    "pipeline_only": 0,
+    "printed_only": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "bouts_identical": 299
+   },
+   "gate": "PASS_EXACT"
+  },
+  "2.5": {
+   "printed_cuts": 3205,
+   "cut_agreement": {
+    "both": 3098,
+    "pipeline_only": 0,
+    "printed_only": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "bouts_identical": 299
+   },
+   "gate": "PASS_EXACT"
+  }
+ }
+}
