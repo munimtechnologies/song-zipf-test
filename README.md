@@ -71,7 +71,11 @@ we suggest reporting it next to any animal-song Zipf result.
   held-out likelihood ladder measures whether order 3 beats order 2 in each bird; then the same
   Zipf test asks whether the song beats second- and third-order chains. If the ladder sees
   syntax the Zipf test cannot, the test is blind to real animal syntax. Queued as
-  `song-zipf-canary-v1`, registered before any canary data were read.
+  `song-zipf-canary-v2`, registered before any canary data were read. One unit test in the
+  first `test_canary.py` was wrong (it gave Python a URL without a scheme), so v1 would have
+  stopped at its test step; v2 fixes only that test and runs `canary.py` fetched at the
+  published commit ([CANARY-AMENDMENT-1.md](CANARY-AMENDMENT-1.md)). Its grader
+  (`test_canary_results.py`) was published before it ran.
 * **Finch song in other birds, at full size** ([XPOP-PREREG.md](XPOP-PREREG.md);
   `finch_xpop.py`): two public, hand-annotated Bengalese finch datasets from other recordings
   (Koumura & Okanoya 2016, 11 birds; Nicholson, Queen & Sober, 4 birds from a different
@@ -100,11 +104,13 @@ we suggest reporting it next to any animal-song Zipf result.
   [CDS-SIZE-PREREG.md](CDS-SIZE-PREREG.md), [XPOP-PREREG.md](XPOP-PREREG.md),
   [CANARY-PREREG.md](CANARY-PREREG.md): later calibrations, the human-language control, the
   independent-bird test and the canary positive control, each registered before it ran.
+* [CANARY-AMENDMENT-1.md](CANARY-AMENDMENT-1.md): a test-only fix for the canary job, before
+  any canary data were read.
 * `grade_final.py`: the final reading of the finch result, published before any result.
-* `test_cds_size_results.py`, `test_xpop_results.py`: graders published before their jobs ran.
-  `test_whale_results.py` was written before the whale job finished but published with its
-  result (see RESULTS-WHALE.md). Each re-derives every label, prediction, rule and Brier score
-  from the raw output with its own code.
+* `test_cds_size_results.py`, `test_xpop_results.py`, `test_canary_results.py`: graders
+  published before their jobs ran. `test_whale_results.py` was written before the whale job
+  finished but published with its result (see RESULTS-WHALE.md). Each re-derives every label,
+  prediction, rule and Brier score from the raw output with its own code.
 * [PRIOR-ART.md](PRIOR-ART.md): what has and has not been done before.
 
 ## Code
@@ -121,8 +127,8 @@ we suggest reporting it next to any animal-song Zipf result.
   test_grade_final test_calib_results test_calib2 test_calib3 test_calib4 test_whale_test
   test_whale_run test_cds_job test_cds_size test_finch_xpop test_canary test_finch_results
   test_calib2_results test_calib3_results test_calib4_results test_cds_results
-  test_cds_size_results test_whale_results test_xpop_results`. The `test_*_results.py` files
-  re-derive every number in the RESULTS files from `results/`.
+  test_cds_size_results test_whale_results test_xpop_results test_canary_results`. The
+  `test_*_results.py` files re-derive every number in the RESULTS files from `results/`.
 
 Raw data are not redistributed here. The finch data of Kirby et al. are CC BY-NC (regenerate
 them from the authors' supplement with `glyph_finch.py`); the whale data are released for
@@ -132,4 +138,3 @@ Nicholson, Queen & Sober finch datasets (CC BY 4.0) and the Cohen 2022 canary an
 are fetched at run time.
 
 Made with AI agents working in MV2's name. Code Apache-2.0; text CC BY 4.0.
-Contact: MV2, Munim, Inc., mv2@munimtech.com
