@@ -25,17 +25,26 @@ Registered predictions: 6 of 7 came true; Brier score 0.173.
 Next: a whale-sized calibration and a power-versus-noise curve, registered in
 [CALIB-2-PREREG.md](CALIB-2-PREREG.md) before it runs.
 
-## Second law: brevity (registered 2026-11-17, queued)
+## Second law: brevity (registered 2026-11-17/18, queued)
 
 Both papers also report that their chunks obey **Zipf's law of brevity** (frequent chunks
-are shorter). [CALIB-3-PREREG.md](CALIB-3-PREREG.md) asks what the pipeline reports for
-synthetic song whose true units have **no** brevity, or the **reverse** relation (longer
-words more frequent), and for song with no words at all, under the published tests (the
-finch Poisson regression; the whale R^2 with shuffle and rotation baselines) and our Markov
-nulls. Ten predictions and four reading rules were fixed before the job runs. The wow, if
-rule BR3 fires: the pipeline can report brevity when the true units show the opposite.
+are shorter).
 
-## Status (2026-11-17)
+* [CALIB-3-PREREG.md](CALIB-3-PREREG.md) asks what the pipeline reports for synthetic song
+  whose true units have **no** brevity, or the **reverse** relation (longer words more
+  frequent), and for song with no words at all, under the finch Poisson regression, a
+  per-recording whale-style R^2, and our Markov nulls.
+* [CALIB-4-PREREG.md](CALIB-4-PREREG.md) runs the **whale paper's statistic exactly as its
+  text defines it** (one point per chunk type pooled over the whole data set; one long
+  sequence per year; R^2 = 0.62, shuffle z = 37.57, rotation z = 13.92 in the paper) at
+  whale size: 8 years of 5,000-8,000 elements. Eleven predictions and four reading rules
+  were fixed before it runs, and before any CALIB-2 or CALIB-3 result exists.
+
+The wow, if it lands: the whale paper's evidence that its chunks are "units relevant to the
+whales" (brevity beating both baselines) is reproduced by song made from syllable-transition
+rules with no words in it, or even by words whose true relation is the reverse.
+
+## Status (2026-11-18)
 
 * [PREREG.md](PREREG.md): hypotheses, nulls, priors and the decision rule, registered before any data.
 * [PREREG-AMENDMENT-1.md](PREREG-AMENDMENT-1.md): the pipeline follows the authors' own
@@ -51,20 +60,22 @@ rule BR3 fires: the pipeline can report brevity when the true units show the opp
   calibration, queued.
 * [CALIB-3-PREREG.md](CALIB-3-PREREG.md) (`calib3.py`, `test_calib3.py`): law-of-brevity
   calibration, queued.
+* [CALIB-4-PREREG.md](CALIB-4-PREREG.md) (`calib4.py`, `test_calib4.py`): the whale
+  brevity statistic as published, at whale size, queued.
 * `grade_final.py`: the final, rule-by-rule reading of the real-data results, published
   before any result existed.
 * [PRIOR-ART.md](PRIOR-ART.md): what has and has not been done before.
 * Jobs queued: finch page-geometry probe; whale stage 0 (unpacking the Science supplement);
-  calibrations 2 and 3.
+  calibrations 2, 3 and 4.
 
 ## Code
 
 * `zipfseg.py`: segmentation, the Zipf R^2, and the null models (pure Python).
-* `calib.py`, `calib2.py`, `calib3.py`: the synthetic calibrations.
+* `calib.py`, `calib2.py`, `calib3.py`, `calib4.py`: the synthetic calibrations.
 * `grade_final.py`: the final reading of the real-data results (no new statistics).
 * `finch_parse.py`, `ocr_finch.py`, `job_analyze.py`, `inventory.py`: data stages.
 * Tests: `python -m unittest -v test_zipfseg test_finch_parse test_calib test_grade_final
-  test_calib_results test_calib2 test_calib3`.
+  test_calib_results test_calib2 test_calib3 test_calib4`.
 
 The "wow", whichever way it falls: either the Zipf structure in animal song reduces to
 short-range transition rules, or it survives a much stronger control than any published one.

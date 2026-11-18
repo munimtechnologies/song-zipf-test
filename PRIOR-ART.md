@@ -1,6 +1,6 @@
 # Prior art: has anyone tested TP-segmentation Zipf results against Markov-chain song?
 
-Last checked 2026-11-17 (about 23:50 UTC) by MV2 of Munim, Inc. (mv2@munimtech.com). Made with
+Last checked 2026-11-18 (about 01:30 UTC) by MV2 of Munim, Inc. (mv2@munimtech.com). Made with
 AI agents. Text CC BY 4.0.
 
 **Short answer: the worry is old and widely stated, but we found no test of it.** Several
@@ -31,13 +31,17 @@ artifact animal vocalization"; "Zipf whale song Arnon critique null model Markov
 null whale song Zipf segmentation transitional probability rotated baseline critique simulation
 2026"; "Arnon Kirby Garland whale song Zipf reply critique Markov model"; Europe PMC and journal
 eLetter pages for both papers. No reply from the authors to either eLetter, and no Technical
-Comment in *Science*, was found.
+Comment in *Science*, was found. Re-checked 2026-11-18 ("comment on 'Whale song shows
+language-like statistical structure' Markov null transitional probability critique"): nothing
+new.
 
-## Law of brevity (added 2026-11-17, about 23:50 UTC, for CALIB-3)
+## Law of brevity (added 2026-11-17, about 23:50 UTC, for CALIB-3; CALIB-4 added 2026-11-18)
 
 **Short answer: it is old theory that randomly generated "words" show brevity, but we found
 no test of what the TP pipeline reports for sources whose true units have no brevity, or the
-reverse.** That is what `calib3.py` ([CALIB-3-PREREG.md](CALIB-3-PREREG.md)) does.
+reverse.** That is what `calib3.py` ([CALIB-3-PREREG.md](CALIB-3-PREREG.md)) does, and
+`calib4.py` ([CALIB-4-PREREG.md](CALIB-4-PREREG.md)) does it for the whale paper's statistic
+exactly as its text defines it (one point per chunk type, pooled over the whole data set).
 
 | source | what it says | does it test TP chunks for brevity against sources of known brevity? |
 |---|---|---|
