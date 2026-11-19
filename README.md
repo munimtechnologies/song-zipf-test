@@ -29,6 +29,10 @@ repeats was not detected either (0 of 3; `REPETITION_DOES_NOT_FOOL_HOLD`). So th
 beyond second order that result 4 found lives in the song's repeats, though not in memoryless
 random repetition; our reading (not yet tested) is that it lies in how the whale repeats, such as
 how many times a cell is sung. 4 of 7 registered predictions came true (Brier 0.189).
+**Next (registered, queued):** [RUNLEN-PREREG.md](RUNLEN-PREREG.md) tests that reading. It parses
+the song into runs (a phrase cell and how many times it is sung in a row), permutes the whale's
+own copy counts (within cell, within cell length) and its repeated phrases (within cell
+length), and re-runs the held-out test on each, with a pipeline check that reproduces result 4.
 
 **2. Finch song in 15 other birds, at full size: "above the bigram" does not replicate
 (provisional).** [RESULTS-XPOP.md](RESULTS-XPOP.md). Two public, hand-annotated Bengalese finch
@@ -145,9 +149,10 @@ chunks is phrase repetition plus short-range element rules.
   [CALIB-4-PREREG.md](CALIB-4-PREREG.md), [CDS-PREREG.md](CDS-PREREG.md),
   [CDS-SIZE-PREREG.md](CDS-SIZE-PREREG.md), [XPOP-PREREG.md](XPOP-PREREG.md),
   [CANARY-PREREG.md](CANARY-PREREG.md), [HOLD-PREREG.md](HOLD-PREREG.md),
-  [RUNS-PREREG.md](RUNS-PREREG.md), [HOLDC-PREREG.md](HOLDC-PREREG.md): later calibrations,
-  the human-language control, the independent-bird test, the canary positive control, the
-  held-out prediction test, the repeat-collapse test and the held-out test on collapsed song,
+  [RUNS-PREREG.md](RUNS-PREREG.md), [HOLDC-PREREG.md](HOLDC-PREREG.md),
+  [RUNLEN-PREREG.md](RUNLEN-PREREG.md): later calibrations, the human-language control, the
+  independent-bird test, the canary positive control, the held-out prediction test, the
+  repeat-collapse test, the held-out test on collapsed song and the repeat-permutation test,
   each registered before it ran.
 * [CANARY-AMENDMENT-1.md](CANARY-AMENDMENT-1.md): a test-only fix for the canary job, before
   any canary data were read.
@@ -169,6 +174,8 @@ chunks is phrase repetition plus short-range element rules.
 * `hold.py`: the held-out prediction test (Witten-Bell orders 0-5 against Markov-2 surrogates).
 * `runs.py`: the repeat-collapse test (tandem-repeat collapse, collapse-consistent Markov nulls).
 * `holdc.py`: the held-out test on collapsed song (imports `hold.py` and `runs.py` unchanged).
+* `runlen.py`: the repeat-permutation test (run parse, three permutations, count specificity;
+  imports `hold.py` unchanged inside its job only).
 * `finch_xpop.py`: the independent-bird finch test (Koumura and Nicholson datasets);
   `xpop_v2.py` runs it unchanged with the XPOP-AMENDMENT-1 reading guard.
 * `canary.py`: the canary positive control (reads only the annotation csv inside each zip, by
@@ -178,12 +185,12 @@ chunks is phrase repetition plus short-range element rules.
 * Tests: `python -m unittest -v test_zipfseg test_finch_parse test_glyph_finch test_calib
   test_grade_final test_calib_results test_calib2 test_calib3 test_calib4 test_whale_test
   test_whale_run test_cds_job test_cds_size test_xpop_v2 test_canary test_hold test_runs
-  test_holdc test_finch_results test_calib2_results test_calib3_results test_calib4_results
-  test_cds_results test_cds_size_results test_whale_results test_xpop_results
-  test_canary_results test_hold_results test_runs_results test_holdc_results`. The
-  `test_*_results.py` files re-derive every number in the RESULTS files from `results/`.
-  (`test_xpop_v2` runs every test of `test_finch_xpop` with the one correction in
-  XPOP-AMENDMENT-1.md.)
+  test_holdc test_runlen test_finch_results test_calib2_results test_calib3_results
+  test_calib4_results test_cds_results test_cds_size_results test_whale_results
+  test_xpop_results test_canary_results test_hold_results test_runs_results
+  test_holdc_results`. The `test_*_results.py` files re-derive every number in the RESULTS
+  files from `results/`. (`test_xpop_v2` runs every test of `test_finch_xpop` with the one
+  correction in XPOP-AMENDMENT-1.md.)
 
 Raw data are not redistributed here. The finch data of Kirby et al. are CC BY-NC (regenerate
 them from the authors' supplement with `glyph_finch.py`); the whale data are released for
