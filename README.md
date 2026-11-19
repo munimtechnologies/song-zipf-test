@@ -64,6 +64,17 @@ we suggest reporting it next to any animal-song Zipf result.
 
 ## Still running
 
+* **Is the whale's Zipf law made by repeating phrase cells? (RUNS)**
+  ([RUNS-PREREG.md](RUNS-PREREG.md); `runs.py`). Humpbacks sing short cells many times in a
+  row before moving on, and 35 of the 80 top "words" in the whale paper's own Table S2 contain
+  an immediate repeat or an x-y-x alternation. RUNS collapses every within-recording tandem
+  repeat (a cell of up to 8 elements sung twice in a row) to one copy and asks three things:
+  does whale song repeat itself more than its own second-order chain does (T2); are the top
+  chunks repetition cells more often than in second-order surrogates (T3); and, with repeats
+  removed, does the Zipf test see structure beyond a second-order chain generated under the
+  same collapse rule (T1)? English is the positive control and Markov-2 surrogates of the whale
+  years are the negative controls. Queued as `song-zipf-runs-v1`, registered on 2026-11-19
+  before any statistic of collapsed song was computed and before HOLD's result existed.
 * **A better instrument: the held-out prediction test (HOLD)** ([HOLD-PREREG.md](HOLD-PREREG.md);
   `hold.py`). Instead of asking whether chunk frequencies look Zipfian, it asks whether looking
   more than two symbols back helps predict **unseen** song: leave-one-bout-out cross-entropy of
@@ -113,9 +124,10 @@ we suggest reporting it next to any animal-song Zipf result.
 * [CALIB-2-PREREG.md](CALIB-2-PREREG.md), [CALIB-3-PREREG.md](CALIB-3-PREREG.md),
   [CALIB-4-PREREG.md](CALIB-4-PREREG.md), [CDS-PREREG.md](CDS-PREREG.md),
   [CDS-SIZE-PREREG.md](CDS-SIZE-PREREG.md), [XPOP-PREREG.md](XPOP-PREREG.md),
-  [CANARY-PREREG.md](CANARY-PREREG.md), [HOLD-PREREG.md](HOLD-PREREG.md): later calibrations,
-  the human-language control, the independent-bird test, the canary positive control and the
-  held-out prediction test, each registered before it ran.
+  [CANARY-PREREG.md](CANARY-PREREG.md), [HOLD-PREREG.md](HOLD-PREREG.md),
+  [RUNS-PREREG.md](RUNS-PREREG.md): later calibrations, the human-language control, the
+  independent-bird test, the canary positive control, the held-out prediction test and the
+  repeat-collapse test, each registered before it ran.
 * [CANARY-AMENDMENT-1.md](CANARY-AMENDMENT-1.md): a test-only fix for the canary job, before
   any canary data were read.
 * `grade_final.py`: the final reading of the finch result, published before any result.
@@ -132,6 +144,7 @@ we suggest reporting it next to any animal-song Zipf result.
 * `calib.py`, `calib2.py`, `calib3.py`, `calib4.py`: the synthetic calibrations.
 * `cds_job.py`, `cds_size.py`: the human-language positive control and its size curve.
 * `hold.py`: the held-out prediction test (Witten-Bell orders 0-5 against Markov-2 surrogates).
+* `runs.py`: the repeat-collapse test (tandem-repeat collapse, collapse-consistent Markov nulls).
 * `finch_xpop.py`: the independent-bird finch test (Koumura and Nicholson datasets).
 * `canary.py`: the canary positive control (reads only the annotation csv inside each zip, by
   HTTP Range requests; audio is never downloaded).
@@ -139,7 +152,7 @@ we suggest reporting it next to any animal-song Zipf result.
 * `whale_read.py`, `whale_test.py`, `whale_stage0.py`, `whale_run.py`: whale stages.
 * Tests: `python -m unittest -v test_zipfseg test_finch_parse test_glyph_finch test_calib
   test_grade_final test_calib_results test_calib2 test_calib3 test_calib4 test_whale_test
-  test_whale_run test_cds_job test_cds_size test_finch_xpop test_canary test_hold
+  test_whale_run test_cds_job test_cds_size test_finch_xpop test_canary test_hold test_runs
   test_finch_results test_calib2_results test_calib3_results test_calib4_results
   test_cds_results test_cds_size_results test_whale_results test_xpop_results
   test_canary_results test_hold_results`. The `test_*_results.py` files re-derive every number
