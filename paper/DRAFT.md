@@ -2,16 +2,20 @@
 
 **MV2, Munim, Inc.** (mv2@munimtech.com)
 
-Working draft v0.3, 2026-11-19. Not peer reviewed. The analyses, code and text were made with
+Working draft v0.4, 2026-11-19. Not peer reviewed. The analyses, code and text were made with
 AI agents working in MV2's name; no human expert has checked them yet. Text CC BY 4.0; code
 Apache-2.0. Repository: https://github.com/munimtechnologies/song-zipf-test (every number below
 is from a results file there; file names are given in brackets).
 
-**Status of this draft.** Sections 3.1-3.10 report tests that are pre-registered, run and
-graded. One registered test is still queued (HOLDC, Section 3.11): it asks whether whale song
-keeps structure beyond second order once its repeats are removed, and the abstract and
-discussion will be revised when it is graded, whichever way it falls. This draft is not to be
-posted as a preprint before then.
+**Status of this draft.** Every section reports tests that were pre-registered, run and graded
+by code published before the result. The last registered test (HOLDC, Section 3.11) is now
+graded, and the abstract and discussion have been revised to include it.
+
+**Changes from v0.3.** (1) Added the graded HOLDC result (Section 3.11): with tandem repeats
+collapsed, the held-out test finds no structure beyond second order in whale song, while it
+still finds English words at the same size. (2) Revised the abstract, the whale part of the
+discussion and the recommendation accordingly. (3) Unregistered, exploratory numbers in 3.11
+are marked as such.
 
 **Changes from v0.2.** (1) Added four graded tests: HOLD (held-out prediction), RUNS
 (repetition), XPOP (15 independent finches, provisional) and CANARY (positive control without
@@ -43,16 +47,21 @@ structure beyond second order in whale song (held-out gain -0.0490 against -0.07
 element, p = 0.005) that the Zipf test could not see. (v) Whale song repeats its cells far more
 than the second-order chain that matches its Zipf law: collapsing tandem repeats removes 63% of
 its elements against 50% in surrogates (p = 0.005), and 35 of its 80 most frequent "words" are
-repetition cells against 26.89 expected. (vi) In 15 adult Bengalese finches from two independent
-datasets at about 20,000 notes per bird, the finch paper's "above the bigram" effect did not
-appear (provisional: one reading gate failed), while a third-order chain beat a second-order
-chain on held-out song in 11 of 11 birds. The Zipf statistic of transitional-probability chunks
-is weak (it misses structure a held-out likelihood finds in both species), unstable (its verdict
-changes with the cutting threshold and recording size) and not monotone in the order of the null.
-We recommend held-out likelihood against fitted surrogates, calibrated on real language at
-matched size, over rank-frequency statistics for claims of language-like units. Whether whale
-song holds structure beyond phrase repetition is the subject of a registered test still running.
-[To revise after HOLDC.]
+repetition cells against 26.89 expected. (vi) With the repeats collapsed, the held-out test finds
+nothing beyond a second-order chain in whale song (gain -0.1454 against -0.0955, p = 1.000;
+looking further back loses in all 8 years), although it detects English words in 5 of 5
+replicates of the same size; song made of second-order chains with memoryless random repeats is
+not detected either, so the whale's extra structure lies in how it repeats, not in the order of
+distinct cells. (vii) In 15 adult Bengalese finches from two independent datasets at about
+20,000 notes per bird, the finch paper's "above the bigram" effect did not appear (provisional:
+one reading gate failed), while a third-order chain beat a second-order chain on held-out song
+in 11 of 11 birds. The Zipf statistic of transitional-probability chunks is weak (it misses
+structure a held-out likelihood finds in both species), unstable (its verdict changes with the
+cutting threshold and recording size) and not monotone in the order of the null. On the whale
+data, the structure behind the "language-like" chunks is phrase repetition plus short-range
+element rules. We recommend held-out likelihood against fitted surrogates, calibrated on real
+language at matched size and checked after collapsing repeats, over rank-frequency statistics
+for claims of language-like units.
 
 ## 1. Introduction
 
@@ -122,6 +131,14 @@ or more in a row) is collapsed to one copy, shortest period first. T2 compares t
 elements removed with second-order surrogates; T3 counts top-ten chunks containing an immediate
 repeat (x x) or alternation (x y x); T1 reruns the Zipf test on the collapsed song against chains
 generated under the same collapse rule.
+
+**Held-out test on collapsed song (HOLDC).** HOLD, unchanged, on the collapsed whale song,
+against B = 1,000 second-order chains generated under the same collapse rule. Controls fixed in
+advance: English recordings each holding at least as many phonemes as the matching collapsed
+whale year, collapsed the same way (5 replicates, each with a negative control); a
+collapse-consistent whale negative control; and repetition-only song (square-free second-order
+surrogates of the collapsed whale re-inflated with memoryless random repeats to about the whale's
+collapse share; 3 data sets), tested both uncollapsed and collapsed.
 
 **Calibration with known truth.** Synthetic song (first- and second-order chains with no words;
 lexicons of 12 words with Zipf, equal, brevity or anti-brevity weights; 2-10% element noise) at
@@ -293,16 +310,37 @@ size. The long-range canary rules apply at a few branch points; a model class su
 probabilistic suffix trees of Markowitz et al. (2013), or the Witten-Bell held-out test of
 Section 3.7, may find what this ladder missed. We have not run them.
 
-### 3.11 Pending: does anything beyond repetition remain? (HOLDC) [placeholder]
+### 3.11 With repeats removed, nothing beyond second order is left in whale song (HOLDC)
 
-HOLDC-PREREG.md registers the held-out test of Section 3.7, unchanged, on the collapsed whale
-song, against second-order chains generated under the same collapse rule (B = 1,000), with
-English recordings size-matched to the collapsed whale years as a positive control, a
-collapse-consistent whale negative control, and synthetic repetition-only song (square-free
-second-order surrogates re-inflated with random repeats, about the whale's collapse share) to
-ask whether repetition alone fools the uncollapsed test and whether collapsing undoes it.
-Registered prior that the collapsed whale is detected: 0.55. [Result: to be inserted from
-RESULTS-HOLDC.md.]
+**Calibration.** English recordings matched to the size of the collapsed whale years (16,708 to
+16,758 phonemes per replicate before collapsing, 16,503 to 16,620 after, against 16,671 whale
+elements) were detected in 5 of 5 replicates (gains +0.0709 to +0.1215 bits per phoneme, each
+p = 0.0099, the smallest 100 surrogates allow); none of the 5 English negative controls, the
+whale negative control or the 3 collapsed repetition-only songs was detected (CONTROL_OK)
+[RESULTS-HOLDC.md].
+
+**Whale.** On the collapsed song, the mean held-out gain is -0.1454 bits per element against
+-0.0955 (sd 0.0089) for 1,000 collapse-consistent second-order surrogates; p = 1.000
+(NOT_DETECTED_WITH_POWER). Looking 3-5 elements back predicts unseen song worse than looking 2
+back in all 8 years (per-year gains -0.0975 to -0.1996), and order 1 is the best held-out order
+in 4 of 8 years; on average order 2 beats order 1 by only 0.0437 bits (3.8126 against 3.8563).
+Before collapsing, the same test detected the song at p = 0.005 (Section 3.7).
+
+**Repetition alone.** Song made of square-free second-order chains re-inflated with memoryless
+random repeats, to about the whale's collapse share (0.6229 to 0.6266 removed, against 0.6290),
+was not detected uncollapsed in any of 3 data sets (REPETITION_DOES_NOT_FOOL_HOLD); we had
+expected it to be (prior 0.80). 4 of 7 registered predictions came true (Brier 0.189).
+
+**Reading.** By the registered reading rules, random repetition alone does not explain the HOLD
+result, and once the repeats are removed nothing beyond second order is left, at a size where
+English units are still found. The extra structure of Section 3.7 is therefore carried by the
+song's repeats, but not by repetition as such. Our hypothesis, not yet tested, is that it lies in
+how the whale repeats: run lengths that are more regular than the geometric run lengths a Markov
+chain produces (a chain that remembers two elements cannot count to three), or repeats tied to
+particular cells. Exploratory and not registered: in units of each test's null sd, the collapsed
+whale sits at -5.6, inside the range of data drawn from second-order chains (whale negative
+control -5.7; English negative controls -5.1 to -6.3; collapsed repetition-only song -3.2 to
+-6.7), while the English replicates sit at +14.5 to +24.3.
 
 ## 4. Discussion
 
@@ -320,13 +358,21 @@ with these properties cannot carry a claim of language-like units in either dire
 
 **What the better instrument shows about whale song.** Whale song has sequential structure on
 unseen song that a second-order chain does not reproduce, and it repeats its cells far more than
-that chain does. The simplest reading is that the extra structure is phrase repetition, which
-whale biologists have described since Payne & McVay (1971). Whether anything beyond repetition
-is left is what HOLDC asks; until it is graded we do not claim either answer.
+that chain does. Once the repeats are collapsed, the held-out test, which still finds English
+words at the same size, finds nothing beyond a second-order chain, and in half the years nothing
+beyond a first-order one. On these data the structure behind the "language-like" chunks is
+phrase repetition plus short-range element rules, which whale biologists have described since
+Payne & McVay (1971). The one new thing the held-out test points to is that the whale's
+repetition is not memoryless: random repeats added to a second-order chain do not reproduce the
+signal. Whether that is regular run length (singing a cell a set number of times) is a direct,
+testable question for the next registration, and it bears on song learning and copying rather
+than on words.
 
 **What it does not show.** Neither species is shown to lack word-like units, or to have them.
-The tests here concern sequential statistics of human-coded element strings; they do not address
-meaning, which the "language-like" framing ultimately concerns.
+"With power" here means power against structure as strong as English words at matched size;
+weaker long-range order in the collapsed whale song could be missed. The tests concern
+sequential statistics of human-coded element strings; they do not address meaning, which the
+"language-like" framing ultimately concerns.
 
 **A recommendation.** Before a rank-frequency or brevity law in animal sequences is read as
 language-like: (1) test against a Markov chain fitted to the same data, at the order the species'
@@ -334,7 +380,9 @@ syntax is known to need, and check every lower order too (nulls need not be mono
 (2) prefer a held-out likelihood test against fitted surrogates, with a smoothing method fixed in
 advance (add-0.5 and Witten-Bell smoothing gave opposite answers on the same whale data); (3)
 calibrate on real language at matched size and transcription granularity, with negative
-controls drawn from the null; (4) check whether the effect survives collapsing tandem repeats.
+controls drawn from the null; (4) collapse tandem repeats and test again, with a size-matched
+positive control: in whale song this step removed all of the held-out structure beyond second
+order.
 
 ## 5. Limits
 
@@ -342,10 +390,13 @@ One whale dataset (one population, 8 years, 55 recordings) with elements classif
 listeners; finch data from two laboratories, one with a failed reading gate; canary data from one
 laboratory without a usable ground truth; one human corpus, in phonemes (50 types) rather than
 syllables, so "matched size" compares symbol counts, not information. The nulls are fitted to the
-same data (plug-in), and the HOLD negative controls show that this null is conservative rather
-than exact. Synthetic generators are simple. Many registered predictions failed and are reported
-as such in each results file (for example, all of XPOP's replication priors). The work was carried
-out with AI agents working in MV2's name and has not yet been checked by a human expert.
+same data (plug-in), and the HOLD and HOLDC negative controls show that this null is conservative
+rather than exact. The collapse rule (cells of 1-8 elements, shortest period first) was fixed in
+advance; another rule could keep structure this one removes. Synthetic generators are simple; in
+particular, the repetition-only control of HOLDC uses memoryless repeats. Many registered
+predictions failed and are reported as such in each results file (for example, all of XPOP's
+replication priors and three of HOLDC's seven). The work was carried out with AI agents working
+in MV2's name and has not yet been checked by a human expert.
 
 ## 6. Data and code
 
