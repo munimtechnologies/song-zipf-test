@@ -74,7 +74,12 @@ we suggest reporting it next to any animal-song Zipf result.
   removed, does the Zipf test see structure beyond a second-order chain generated under the
   same collapse rule (T1)? English is the positive control and Markov-2 surrogates of the whale
   years are the negative controls. Queued as `song-zipf-runs-v1`, registered on 2026-11-19
-  before any statistic of collapsed song was computed and before HOLD's result existed.
+  before any statistic of collapsed song was computed and before HOLD's result existed. Its
+  grader (`test_runs_results.py`) was published on 2026-11-19, before the job produced any
+  result: with its own code it re-derives every label, the control rule, rules R1-R3,
+  predictions P1-P9 and the Brier score; recounts the top-chunk motifs from the printed chunks;
+  checks that the original whale R^2 still reproduces RESULTS-WHALE.md; and fixes the lines
+  RESULTS-RUNS.md must print.
 * **A better instrument: the held-out prediction test (HOLD)** ([HOLD-PREREG.md](HOLD-PREREG.md);
   `hold.py`). Instead of asking whether chunk frequencies look Zipfian, it asks whether looking
   more than two symbols back helps predict **unseen** song: leave-one-bout-out cross-entropy of
@@ -132,10 +137,10 @@ we suggest reporting it next to any animal-song Zipf result.
   any canary data were read.
 * `grade_final.py`: the final reading of the finch result, published before any result.
 * `test_cds_size_results.py`, `test_xpop_results.py`, `test_canary_results.py`,
-  `test_hold_results.py`: graders published before their jobs ran. `test_whale_results.py` was
-  written before the whale job finished but published with its result (see RESULTS-WHALE.md).
-  Each re-derives every label, prediction, rule and Brier score from the raw output with its
-  own code.
+  `test_hold_results.py`, `test_runs_results.py`: graders published before their jobs ran.
+  `test_whale_results.py` was written before the whale job finished but published with its
+  result (see RESULTS-WHALE.md). Each re-derives every label, prediction, rule and Brier score
+  from the raw output with its own code.
 * [PRIOR-ART.md](PRIOR-ART.md): what has and has not been done before.
 
 ## Code
@@ -155,8 +160,8 @@ we suggest reporting it next to any animal-song Zipf result.
   test_whale_run test_cds_job test_cds_size test_finch_xpop test_canary test_hold test_runs
   test_finch_results test_calib2_results test_calib3_results test_calib4_results
   test_cds_results test_cds_size_results test_whale_results test_xpop_results
-  test_canary_results test_hold_results`. The `test_*_results.py` files re-derive every number
-  in the RESULTS files from `results/`.
+  test_canary_results test_hold_results test_runs_results`. The `test_*_results.py` files
+  re-derive every number in the RESULTS files from `results/`.
 
 Raw data are not redistributed here. The finch data of Kirby et al. are CC BY-NC (regenerate
 them from the authors' supplement with `glyph_finch.py`); the whale data are released for
