@@ -107,10 +107,14 @@ we suggest reporting it next to any animal-song Zipf result.
   `finch_xpop.py`): two public, hand-annotated Bengalese finch datasets from other recordings
   (Koumura & Okanoya 2016, 11 birds; Nicholson, Queen & Sober, 4 birds from a different
   laboratory), at about 18,000 to 20,000 notes per bird instead of about 700, with a
-  third-order chain added. Queued as `song-zipf-xpop-v1`; its grader (`test_xpop_results.py`)
-  was published before it ran. Its code was published without passing the repository's
-  pre-commit test step (see the commit message); the job runs the same unit tests as its first
-  step and its log will be published with the result.
+  third-order chain added. Its grader (`test_xpop_results.py`) was published before it ran.
+  The first job (`song-zipf-xpop-v1`, 2026-11-19 07:45 UTC) stopped at its unit tests, before
+  any data were downloaded: one test fed toy song with no syllable rules to a block and
+  expected a result, but such song has no chunk boundaries at threshold 0.3 and the block
+  correctly recorded an error. Now queued as `song-zipf-xpop-v2`
+  ([XPOP-AMENDMENT-1.md](XPOP-AMENDMENT-1.md)): it fetches the registered `finch_xpop.py`
+  unchanged, runs every registered unit test (that one corrected), and skips macOS `._*`
+  metadata members of the archives so they cannot count as unreadable annotation files.
 
 ## Registration trail
 
@@ -135,6 +139,8 @@ we suggest reporting it next to any animal-song Zipf result.
   repeat-collapse test, each registered before it ran.
 * [CANARY-AMENDMENT-1.md](CANARY-AMENDMENT-1.md): a test-only fix for the canary job, before
   any canary data were read.
+* [XPOP-AMENDMENT-1.md](XPOP-AMENDMENT-1.md): a test fix and a `._*` reading guard for the
+  independent-bird job, before any finch data were downloaded.
 * `grade_final.py`: the final reading of the finch result, published before any result.
 * `test_cds_size_results.py`, `test_xpop_results.py`, `test_canary_results.py`,
   `test_hold_results.py`, `test_runs_results.py`: graders published before their jobs ran.
@@ -150,18 +156,20 @@ we suggest reporting it next to any animal-song Zipf result.
 * `cds_job.py`, `cds_size.py`: the human-language positive control and its size curve.
 * `hold.py`: the held-out prediction test (Witten-Bell orders 0-5 against Markov-2 surrogates).
 * `runs.py`: the repeat-collapse test (tandem-repeat collapse, collapse-consistent Markov nulls).
-* `finch_xpop.py`: the independent-bird finch test (Koumura and Nicholson datasets).
+* `finch_xpop.py`: the independent-bird finch test (Koumura and Nicholson datasets);
+  `xpop_v2.py` runs it unchanged with the XPOP-AMENDMENT-1 reading guard.
 * `canary.py`: the canary positive control (reads only the annotation csv inside each zip, by
   HTTP Range requests; audio is never downloaded).
 * `glyph_finch.py`, `finch_parse.py`, `job_analyze.py` (and the retired `ocr_finch.py`): finch stages.
 * `whale_read.py`, `whale_test.py`, `whale_stage0.py`, `whale_run.py`: whale stages.
 * Tests: `python -m unittest -v test_zipfseg test_finch_parse test_glyph_finch test_calib
   test_grade_final test_calib_results test_calib2 test_calib3 test_calib4 test_whale_test
-  test_whale_run test_cds_job test_cds_size test_finch_xpop test_canary test_hold test_runs
+  test_whale_run test_cds_job test_cds_size test_xpop_v2 test_canary test_hold test_runs
   test_finch_results test_calib2_results test_calib3_results test_calib4_results
   test_cds_results test_cds_size_results test_whale_results test_xpop_results
   test_canary_results test_hold_results test_runs_results`. The `test_*_results.py` files
-  re-derive every number in the RESULTS files from `results/`.
+  re-derive every number in the RESULTS files from `results/`. (`test_xpop_v2` runs every test
+  of `test_finch_xpop` with the one correction in XPOP-AMENDMENT-1.md.)
 
 Raw data are not redistributed here. The finch data of Kirby et al. are CC BY-NC (regenerate
 them from the authors' supplement with `glyph_finch.py`); the whale data are released for
