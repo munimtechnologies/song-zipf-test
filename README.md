@@ -12,42 +12,59 @@ first- and second-order Markov chains fitted to each recording, with a held-out 
 overfitting. We calibrate every statistic on synthetic song whose truth is known, and on real
 human language (child-directed English) as a positive control.
 
-## Results so far (2026-11-18)
+## Results so far (2026-11-19)
 
-**1. Whale, real data: the Zipf law is fully reproduced by a second-order chain fitted to the
-song's own transitions, and the test's power check says it cannot see words here.**
-[RESULTS-WHALE.md](RESULTS-WHALE.md). On the authors' own data and code we reproduce their Zipf
-R^2 to the last digit (0.9302888665216728 against Code S1's 0.9302888665216734) and their top
-chunk in 8 of 8 years. The song beats the paper's controls and a first-order chain, but a
-second-order chain with no words in it gives song that is more Zipfian than the real song (R^2
-0.939 against 0.930, p = 0.970). Label `NOT_DISTINGUISHABLE` (not robust: at the loosest
-thresholds, 0.25 and 0.3, the song does beat that chain). The held-out power check D1 favours
-order 2 in only 1 of 8 years, the regime in which real English words are missed too (result 2).
-Our brevity statistic did not reproduce the paper's R^2 of 0.62 (we got 0.021), so no brevity
-label is drawn; that is a gap in our reproduction, not evidence against the paper.
+**1. A held-out test sees what the Zipf test missed: whale song has structure beyond a
+second-order chain on unseen song.** [RESULTS-HOLD.md](RESULTS-HOLD.md). We asked directly
+whether looking 3-5 elements back helps predict held-out song (leave-one-bout-out, Witten-Bell
+smoothing), against Markov-2 surrogates of the same data. Calibrated on real English, this test
+found the words in 17 of 17 replicates, including 5 of 5 at about 650 phonemes per recording,
+where the Zipf test found 0 of 5; it flagged 0 of 17 English negative controls. On the whale
+data, the held-out gain is -0.0490 bits per element against -0.0783 (sd 0.0048) for the
+surrogates, p = 0.005; the whale negative control is not detected. So the whale Zipf result
+below (result 2) reflects a weak instrument, not simple song. Limits: on average, looking
+further back still does not beat order 2 outright (prediction H7 failed); the effect is clear in
+4 of 8 years; the null proved conservative (every negative control gave p = 1.000); and long
+repeated phrases, known since 1971, would produce the same signal. RUNS (below) tests that.
+7 of 9 registered predictions came true (Brier 0.164).
 
-**2. English size curve: the test finds real words from about 2,700 phonemes per recording,
-and D1 predicts when it can.** [RESULTS-CDS-SIZE.md](RESULTS-CDS-SIZE.md). 17 replicates of 8
-recordings of child-directed English, from 647 to 11,748 phonemes per recording: detected 0 of
-5 at finch size, 1 of 5 at 1,380, and every time from 2,745 up. Replicates in which order 2
-generalises better than order 1 in most recordings (D1 majority) were detected 7 of 7 times;
-the others 1 of 10. All 7 registered predictions came true (Brier 0.120). Every replicate
-passed the published shuffle and rotation controls.
+**2. Whale, Zipf test on real data: the Zipf law is fully reproduced by a second-order chain
+fitted to the song's own transitions.** [RESULTS-WHALE.md](RESULTS-WHALE.md). On the authors'
+own data and code we reproduce their Zipf R^2 to the last digit (0.9302888665216728 against
+Code S1's 0.9302888665216734) and their top chunk in 8 of 8 years. The song beats the paper's
+controls and a first-order chain, but a second-order chain with no words in it gives song that
+is more Zipfian than the real song (R^2 0.939 against 0.930, p = 0.970). Label
+`NOT_DISTINGUISHABLE` (not robust: at the loosest thresholds, 0.25 and 0.3, the song does beat
+that chain). Our brevity statistic did not reproduce the paper's R^2 of 0.62 (we got 0.021), so
+no brevity label is drawn; that is a gap in our reproduction, not evidence against the paper.
 
-**3. Finch, real data: the Zipf structure is matched by second-order syllable rules, and so
+**3. English size curve: the Zipf test finds real words only from about 2,700 phonemes per
+recording.** [RESULTS-CDS-SIZE.md](RESULTS-CDS-SIZE.md). 17 replicates of 8 recordings of
+child-directed English, from 647 to 11,748 phonemes per recording: detected 0 of 5 at finch
+size, 1 of 5 at 1,380, and every time from 2,745 up. All 7 registered predictions came true
+(Brier 0.120). The held-out test of result 1 detects all 17.
+
+**4. Finch, real data: the Zipf structure is matched by second-order syllable rules, and so
 is English at the same size.** [RESULTS-FINCH.md](RESULTS-FINCH.md). On the authors' own song
 strings and code we reproduce their numbers (mean R^2 0.889 against 0.89; bigram z 6.94 against
-6.77). A second-order Markov chain fitted to each recording, with no words in it, gives song as
-Zipfian as the real song (p = 0.137); a first-order chain does not (p = 0.001). Label:
-`EXPLAINED_BY_SECOND_ORDER`. Because real English at the same size also fails to beat the
-second-order chain (results 2 and 4), this is reported as not distinguishable from what real
-English gives, not as evidence that finch song lacks words.
+6.77). A second-order Markov chain fitted to each recording gives song as Zipfian as the real
+song (p = 0.137); a first-order chain does not (p = 0.001). Label: `EXPLAINED_BY_SECOND_ORDER`.
+Because real English at the same size also fails this test (results 3 and 6), this is not
+evidence that finch song lacks words.
 
-**4. Human-language positive control.** [RESULTS-CDS.md](RESULTS-CDS.md). At finch size (30 x
-about 650 phonemes) English does not beat the second-order chain (p = 0.49); at whale size (8 x
-about 6,150 phonemes) it beats every null (z = 5.6, p = 0.005).
+**5. Canary positive control: no ground truth at this size.**
+[RESULTS-CANARY.md](RESULTS-CANARY.md). Canary phrase syntax is reported to reach three or more
+phrases back, but in all three birds of the public Cohen 2022 dataset (about 3,000 phrases per
+recording) a held-out likelihood ladder found order 3 worse than order 2, so rule C1 is
+`NO_GROUND_TRUTH` and the run cannot say whether the Zipf test is blind to animal syntax. The
+Zipf labels themselves flip with the cutting threshold in two of three birds. 2 of 8 registered
+predictions came true (Brier 0.355).
 
-**5. Calibrations on song whose truth is known.** Wordless song at whale size reproduces the
+**6. Human-language positive control.** [RESULTS-CDS.md](RESULTS-CDS.md). At finch size (30 x
+about 650 phonemes) English does not beat the second-order chain with the Zipf test (p = 0.49);
+at whale size (8 x about 6,150 phonemes) it beats every null (z = 5.6, p = 0.005).
+
+**7. Calibrations on song whose truth is known.** Wordless song at whale size reproduces the
 whale paper's Zipf numbers and passes both of its controls 20 of 20 times
 ([RESULTS-CALIB-2.md](RESULTS-CALIB-2.md)) and passes its brevity controls 20 of 20 times
 ([RESULTS-CALIB-4.md](RESULTS-CALIB-4.md)); units whose true relation is the reverse of
@@ -56,15 +73,16 @@ wordless song passes the finch paper's controls 20 of 20 times
 ([RESULTS-CALIB.md](RESULTS-CALIB.md)).
 
 **Where this leaves the two papers.** The controls both papers rely on (shuffling and
-rotation) are passed alike by English, finch song, whale song and song with no words. A Markov
-chain fitted to each species' own transitions reproduces its Zipf law at the registered
-threshold. Whether either species has word-like units is still open: at the data sizes
-published, the held-out check says this kind of test cannot tell. D1 costs nothing to run, and
-we suggest reporting it next to any animal-song Zipf result.
+rotation) are passed alike by English, finch song, whale song, canary song and song with no
+words. The Zipf-of-chunks statistic is a weak instrument: it misses real English words below
+about 2,700 phonemes per recording and cannot separate whale song from a second-order chain. A
+calibrated held-out prediction test does better on both counts, and it finds structure beyond
+second order in whale song. Whether that structure is word-like, or the long phrase repetition
+humpbacks are known for, is the next question.
 
 ## Still running
 
-* **Is the whale's Zipf law made by repeating phrase cells? (RUNS)**
+* **Is the whale's extra structure made by repeating phrase cells? (RUNS)**
   ([RUNS-PREREG.md](RUNS-PREREG.md); `runs.py`). Humpbacks sing short cells many times in a
   row before moving on, and 35 of the 80 top "words" in the whale paper's own Table S2 contain
   an immediate repeat or an x-y-x alternation. RUNS collapses every within-recording tandem
@@ -72,49 +90,16 @@ we suggest reporting it next to any animal-song Zipf result.
   does whale song repeat itself more than its own second-order chain does (T2); are the top
   chunks repetition cells more often than in second-order surrogates (T3); and, with repeats
   removed, does the Zipf test see structure beyond a second-order chain generated under the
-  same collapse rule (T1)? English is the positive control and Markov-2 surrogates of the whale
-  years are the negative controls. Queued as `song-zipf-runs-v1`, registered on 2026-11-19
-  before any statistic of collapsed song was computed and before HOLD's result existed. Its
-  grader (`test_runs_results.py`) was published on 2026-11-19, before the job produced any
-  result: with its own code it re-derives every label, the control rule, rules R1-R3,
-  predictions P1-P9 and the Brier score; recounts the top-chunk motifs from the printed chunks;
-  checks that the original whale R^2 still reproduces RESULTS-WHALE.md; and fixes the lines
-  RESULTS-RUNS.md must print.
-* **A better instrument: the held-out prediction test (HOLD)** ([HOLD-PREREG.md](HOLD-PREREG.md);
-  `hold.py`). Instead of asking whether chunk frequencies look Zipfian, it asks whether looking
-  more than two symbols back helps predict **unseen** song: leave-one-bout-out cross-entropy of
-  smoothed (Witten-Bell) models of order 0 to 5, against the same second-order Markov
-  surrogates. It is calibrated on the same 17 English replicates as result 2, so its power can
-  be compared head to head with the Zipf test's, and it is checked for false positives on
-  Markov-2 surrogates treated as real data. It is then applied to the 8 years of whale song.
-  Queued as `song-zipf-hold-v1`, registered before any order-3-or-higher statistic was computed
-  on either data set. Its grader (`test_hold_results.py`) was published on 2026-11-19, before
-  the job produced any result: it re-derives every label, rule R1-R4, prediction H1-H9 and the
-  Brier score from the raw output, and fixes the lines RESULTS-HOLD.md must print.
-* **An animal positive control: canary song** ([CANARY-PREREG.md](CANARY-PREREG.md);
-  `canary.py`). Canary phrase sequences are known to follow rules that reach three or more
-  phrases back (Markowitz et al. 2013; Cohen et al. 2020, *Nature*). Three canaries from a
-  public CC0 dataset (Cohen 2022), about 30,000 s of song each, read as phrase sequences. A
-  held-out likelihood ladder measures whether order 3 beats order 2 in each bird; then the same
-  Zipf test asks whether the song beats second- and third-order chains. If the ladder sees
-  syntax the Zipf test cannot, the test is blind to real animal syntax. Queued as
-  `song-zipf-canary-v2`, registered before any canary data were read. One unit test in the
-  first `test_canary.py` was wrong (it gave Python a URL without a scheme), so v1 would have
-  stopped at its test step; v2 fixes only that test and runs `canary.py` fetched at the
-  published commit ([CANARY-AMENDMENT-1.md](CANARY-AMENDMENT-1.md)). Its grader
-  (`test_canary_results.py`) was published before it ran.
+  same collapse rule (T1)? Queued as `song-zipf-runs-v1`, registered before HOLD's result
+  existed. Its grader (`test_runs_results.py`) was published before the job produced any
+  result.
 * **Finch song in other birds, at full size** ([XPOP-PREREG.md](XPOP-PREREG.md);
   `finch_xpop.py`): two public, hand-annotated Bengalese finch datasets from other recordings
   (Koumura & Okanoya 2016, 11 birds; Nicholson, Queen & Sober, 4 birds from a different
   laboratory), at about 18,000 to 20,000 notes per bird instead of about 700, with a
   third-order chain added. Its grader (`test_xpop_results.py`) was published before it ran.
-  The first job (`song-zipf-xpop-v1`, 2026-11-19 07:45 UTC) stopped at its unit tests, before
-  any data were downloaded: one test fed toy song with no syllable rules to a block and
-  expected a result, but such song has no chunk boundaries at threshold 0.3 and the block
-  correctly recorded an error. Now queued as `song-zipf-xpop-v2`
-  ([XPOP-AMENDMENT-1.md](XPOP-AMENDMENT-1.md)): it fetches the registered `finch_xpop.py`
-  unchanged, runs every registered unit test (that one corrected), and skips macOS `._*`
-  metadata members of the archives so they cannot count as unreadable annotation files.
+  The first job stopped at its unit tests before any data were downloaded (one toy test was
+  wrong); now queued as `song-zipf-xpop-v2` ([XPOP-AMENDMENT-1.md](XPOP-AMENDMENT-1.md)).
 
 ## Registration trail
 
@@ -173,9 +158,9 @@ we suggest reporting it next to any animal-song Zipf result.
 
 Raw data are not redistributed here. The finch data of Kirby et al. are CC BY-NC (regenerate
 them from the authors' supplement with `glyph_finch.py`); the whale data are released for
-reproducing or extending the Zipfian analysis (`results/whale/` holds derived statistics only);
-the Brent-Ratner corpus is fetched from TalkBank/CHILDES at run time; the Koumura & Okanoya and
-Nicholson, Queen & Sober finch datasets (CC BY 4.0) and the Cohen 2022 canary annotations (CC0)
-are fetched at run time.
+reproducing or extending the Zipfian analysis (`results/whale/` and `results/hold/` hold derived
+statistics only); the Brent-Ratner corpus is fetched from TalkBank/CHILDES at run time; the
+Koumura & Okanoya and Nicholson, Queen & Sober finch datasets (CC BY 4.0) and the Cohen 2022
+canary annotations (CC0) are fetched at run time.
 
 Made with AI agents working in MV2's name. Code Apache-2.0; text CC BY 4.0.
