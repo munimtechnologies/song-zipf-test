@@ -72,7 +72,9 @@ we suggest reporting it next to any animal-song Zipf result.
   be compared head to head with the Zipf test's, and it is checked for false positives on
   Markov-2 surrogates treated as real data. It is then applied to the 8 years of whale song.
   Queued as `song-zipf-hold-v1`, registered before any order-3-or-higher statistic was computed
-  on either data set.
+  on either data set. Its grader (`test_hold_results.py`) was published on 2026-11-19, before
+  the job produced any result: it re-derives every label, rule R1-R4, prediction H1-H9 and the
+  Brier score from the raw output, and fixes the lines RESULTS-HOLD.md must print.
 * **An animal positive control: canary song** ([CANARY-PREREG.md](CANARY-PREREG.md);
   `canary.py`). Canary phrase sequences are known to follow rules that reach three or more
   phrases back (Markowitz et al. 2013; Cohen et al. 2020, *Nature*). Three canaries from a
@@ -117,10 +119,11 @@ we suggest reporting it next to any animal-song Zipf result.
 * [CANARY-AMENDMENT-1.md](CANARY-AMENDMENT-1.md): a test-only fix for the canary job, before
   any canary data were read.
 * `grade_final.py`: the final reading of the finch result, published before any result.
-* `test_cds_size_results.py`, `test_xpop_results.py`, `test_canary_results.py`: graders
-  published before their jobs ran. `test_whale_results.py` was written before the whale job
-  finished but published with its result (see RESULTS-WHALE.md). Each re-derives every label,
-  prediction, rule and Brier score from the raw output with its own code.
+* `test_cds_size_results.py`, `test_xpop_results.py`, `test_canary_results.py`,
+  `test_hold_results.py`: graders published before their jobs ran. `test_whale_results.py` was
+  written before the whale job finished but published with its result (see RESULTS-WHALE.md).
+  Each re-derives every label, prediction, rule and Brier score from the raw output with its
+  own code.
 * [PRIOR-ART.md](PRIOR-ART.md): what has and has not been done before.
 
 ## Code
@@ -139,8 +142,8 @@ we suggest reporting it next to any animal-song Zipf result.
   test_whale_run test_cds_job test_cds_size test_finch_xpop test_canary test_hold
   test_finch_results test_calib2_results test_calib3_results test_calib4_results
   test_cds_results test_cds_size_results test_whale_results test_xpop_results
-  test_canary_results`. The `test_*_results.py` files re-derive every number in the RESULTS
-  files from `results/`.
+  test_canary_results test_hold_results`. The `test_*_results.py` files re-derive every number
+  in the RESULTS files from `results/`.
 
 Raw data are not redistributed here. The finch data of Kirby et al. are CC BY-NC (regenerate
 them from the authors' supplement with `glyph_finch.py`); the whale data are released for
