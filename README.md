@@ -100,7 +100,9 @@ repetition is left is the question HOLDC asks.
   fixed in advance: English in recordings size-matched to the collapsed whale years (can HOLD
   still see real units at this size?), and repetition-only song made from square-free
   second-order surrogates re-inflated with random repeats (does repetition alone fool HOLD,
-  and does collapsing undo it?). Queued as `song-zipf-holdc-v1`.
+  and does collapsing undo it?). Queued as `song-zipf-holdc-v1`. Its grader
+  (`test_holdc_results.py`) was published before it ran; it also checks the whale sizes, bout
+  counts and data hash against RESULTS-RUNS.md.
 * **Finch song in other birds, at full size** ([XPOP-PREREG.md](XPOP-PREREG.md);
   `finch_xpop.py`): two public, hand-annotated Bengalese finch datasets from other recordings
   (Koumura & Okanoya 2016, 11 birds; Nicholson, Queen & Sober, 4 birds from a different
@@ -137,10 +139,10 @@ repetition is left is the question HOLDC asks.
   independent-bird job, before any finch data were downloaded.
 * `grade_final.py`: the final reading of the finch result, published before any result.
 * `test_cds_size_results.py`, `test_xpop_results.py`, `test_canary_results.py`,
-  `test_hold_results.py`, `test_runs_results.py`: graders published before their jobs ran.
-  `test_whale_results.py` was written before the whale job finished but published with its
-  result (see RESULTS-WHALE.md). Each re-derives every label, prediction, rule and Brier score
-  from the raw output with its own code.
+  `test_hold_results.py`, `test_runs_results.py`, `test_holdc_results.py`: graders published
+  before their jobs ran. `test_whale_results.py` was written before the whale job finished but
+  published with its result (see RESULTS-WHALE.md). Each re-derives every label, prediction,
+  rule and Brier score from the raw output with its own code.
 * [PRIOR-ART.md](PRIOR-ART.md): what has and has not been done before.
 
 ## Code
@@ -162,9 +164,10 @@ repetition is left is the question HOLDC asks.
   test_whale_run test_cds_job test_cds_size test_xpop_v2 test_canary test_hold test_runs
   test_holdc test_finch_results test_calib2_results test_calib3_results test_calib4_results
   test_cds_results test_cds_size_results test_whale_results test_xpop_results
-  test_canary_results test_hold_results test_runs_results`. The `test_*_results.py` files
-  re-derive every number in the RESULTS files from `results/`. (`test_xpop_v2` runs every test
-  of `test_finch_xpop` with the one correction in XPOP-AMENDMENT-1.md.)
+  test_canary_results test_hold_results test_runs_results test_holdc_results`. The
+  `test_*_results.py` files re-derive every number in the RESULTS files from `results/`.
+  (`test_xpop_v2` runs every test of `test_finch_xpop` with the one correction in
+  XPOP-AMENDMENT-1.md.)
 
 Raw data are not redistributed here. The finch data of Kirby et al. are CC BY-NC (regenerate
 them from the authors' supplement with `glyph_finch.py`); the whale data are released for
