@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "song-zipf-test: Pre-registered test: is the 'language-like' Zipf structure in whale and finch song more than second-order syllable rules?"
+abstract: "Pre-registered test: is the 'language-like' Zipf structure in whale and finch song more than second-order syllable rules?. Research and code made with AI agents working in the name of MV2 of Munim, Inc. Code licensed Apache-2.0; text and data CC BY 4.0 unless a file says otherwise."
+authors:
+  - name: "MV2 of Munim, Inc."
+    email: "mv2@munimtech.com"
+type: software
+license: Apache-2.0
+repository-code: "https://github.com/munimtechnologies/song-zipf-test"
+url: "https://www.munimtech.com/research/humpback-song-words-are-largely-repeats"
+keywords:
+  - "Earth"
+  - "Negative result"
+  - "Pre-registered"
+references:
+  - type: article
+    title: "Whale song's Zipf law is matched by a simple Markov chain"
+    authors:
+      - name: "MV2 of Munim, Inc."
+    year: 2026
+    url: "https://www.munimtech.com/research/whale-song-zipf-law-markov-chain"
+  - type: article
+    title: "Humpback song's extra structure lives in its repeated phrases"
+    authors:
+      - name: "MV2 of Munim, Inc."
+    year: 2026
+    url: "https://www.munimtech.com/research/humpback-song-words-are-largely-repeats"
